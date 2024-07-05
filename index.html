@@ -42,6 +42,11 @@
             font-size: 24px;
             margin-bottom: 10px;
         }
+        .streak-image {
+            width: 30px;
+            height: 30px;
+            margin-right: 5px;
+        }
         .question {
             font-size: 48px;
             margin: 20px 0;
@@ -102,7 +107,7 @@
 </head>
 <body>
     <div class="game-container">
-        <h1>Suika Game - Kanji Learning</h1>
+        <h1>Speed Speed Kanji N4</h1>
         <div id="game-area" style="display:none;">
             <div class="timer"><div class="timer-bar"></div></div>
             <div class="streak" id="streak"></div>
@@ -155,18 +160,7 @@
             { kanji: '話', meaning: 'To talk, story' },
         ];
 
-        const imageList = [
-            'imgs/pb.png',  // Add this image multiple times or add more images to the list as needed
-            'imgs/pb.png',
-            'imgs/pb.png',
-            'imgs/pb.png',
-            'imgs/pb.png',
-            'imgs/pb.png',
-            'imgs/pb.png',
-            'imgs/pb.png',
-            'imgs/pb.png',
-            'imgs/pb.png'
-        ];
+        const streakImageUrl = 'https://raw.githubusercontent.com/sskn4/immgs/main/pb.png';
 
         let lifePoints = 5;
         let remainingQuestions = kanjiList.length;
@@ -282,7 +276,14 @@
         function updateDisplay() {
             lifePointsElement.textContent = `Life Points: ${'❤️'.repeat(lifePoints)}`;
             remainingQuestionsElement.textContent = `Questions Left: ${remainingQuestions}`;
-            streakElement.textContent = fruitEmojis.slice(0, streak).join(' ');
+            streakElement.innerHTML = '';
+            for (let i = 0; i < streak; i++) {
+                const img = document.createElement('img');
+                img.src = streakImageUrl;
+                img.alt = 'Streak';
+                img.className = 'streak-image';
+                streakElement.appendChild(img);
+            }
         }
 
         function showFeedbackModal() {
