@@ -108,6 +108,18 @@
             font-weight: bold;
             cursor: pointer;
         }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px;
+            }
+            .question {
+                font-size: 30px;
+            }
+            .choice {
+                font-size: 14px;
+                height: 40px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -143,6 +155,194 @@
 
     <script>
         // Your existing JavaScript code here
+        const kanjiList = [
+            { kanji: '学', meaning: 'Study, learning' },
+            { kanji: '校', meaning: 'School' },
+            { kanji: '休', meaning: 'Rest, holiday' },
+            { kanji: '何', meaning: 'What' },
+            { kanji: '体', meaning: 'Body' },
+            { kanji: '自', meaning: 'Self' },
+            { kanji: '車', meaning: 'Car, vehicle' },
+            { kanji: '会', meaning: 'Meeting, to meet' },
+            { kanji: '社', meaning: 'Company, society' },
+            { kanji: '駅', meaning: 'Station' },
+            { kanji: '店', meaning: 'Shop' },
+            { kanji: '住', meaning: 'To live' },
+            { kanji: '考', meaning: 'To think' },
+            { kanji: '病', meaning: 'Sickness, illness' },
+            { kanji: '院', meaning: 'Institution' },
+            { kanji: '近', meaning: 'Near, close' },
+            { kanji: '遠', meaning: 'Far' },
+            { kanji: '海', meaning: 'Sea, ocean' },
+            { kanji: '言', meaning: 'To say, word' },
+            { kanji: '話', meaning: 'To talk, story' },
+        ];
+
+        const imageList = [
+            'immgs/pb.png',  // Update this path based on your folder structure
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png'
+        ];
+
+        let lifePoints = 5;
+        let remainingQuestions = kanjiList.length;
+        let currentQuestion;
+        let timeLeft = 10;
+        let timerInterval;
+        let streak = 0;
+        let gameStarted = false;
+        let gamePaused = false;
+
+        const gameArea = document.getElementById('game-area');
+        const startButton = document.getElementById('start-button');
+        const pauseButton = document.getElementById('pause-button');
+        const questionElement = document.getElementById('question');
+        const choicesElement = document.getElementById('choices');
+        const lifePointsElement = document.getElementById('life-points');
+        const remainingQuestionsElement = document.getElementById('remaining-questions');
+        const streakElement = document.getElementById('streak');
+        const timerBar = document.querySelector('.timer-bar');
+        const feedbackModal = document.getElementById('feedback-modal');
+        const streakModal = document.getElementById('streak-modal');
+        const feedbackMessage = document.getElementById('feedback-message');
+
+        startButton.addEventListener('click', startGame);
+        pauseButton.addEventListener('click', togglePause);
+
+        function startGame() {
+            gameStarted = true;
+            lifePoints = 5;
+            remainingQuestions = kanjiList.length;
+            streak = 0;
+            updateDisplay();
+            nextQuestion();
+            gameArea.style.display = 'block';
+            startButton.style.display = 'none';
+            pauseButton.style.display = 'inline-block';
+        }
+
+        function togglePause() {
+            gamePaused = !gamePaused;
+            pauseButton.textContent = gamePaused ? 'Resume' : 'Pause';
+            if (gamePaused) {
+                clearInterval(timerInterval);
+            } else {
+                startTimer();
+            }
+        }
+
+        function nextQuestion() {
+            if (remainingQuestions > 0) {
+                const randomIndex = Math.floor(Math.random() * kanjiList.length);
+                currentQuestion = kanjiList[randomIndex];
+                const incorrectChoices = kanjiList
+                    .filter(k => k !== currentQuestion)
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3);
+                const allChoices = [...incorrectChoices, currentQuestion].sort(() => 0.5 - Math.random());
+
+                questionElement.textContent = currentQuestion.kanji;
+                choicesElement.innerHTML = '';
+                allChoices.forEach(choice => {
+                    const button = document.createElement('button');
+                    button.className = 'choice';
+                    button.textContent = choice.meaning;
+                    button.addEventListener('click', () => handleAnswer(choice));
+                    choicesElement.appendChild(button);
+                });
+
+                remainingQuestions--;
+                timeLeft = 10;
+                updateDisplay();
+                startTimer();
+            } else {
+                endGame();
+            }
+        }
+
+        function handleAnswer(selectedAnswer) {
+            clearInterval(timerInterval);
+            if (selectedAnswer === currentQuestion) {
+                streak++;
+                if (streak === 10) {
+                    showStreakModal();
+                }
+            } else {
+                lifePoints--;
+                streak = 0;
+                showFeedbackModal();
+            }
+            updateDisplay();
+            if (lifePoints <= 0) {
+                endGame();
+            } else {
+                nextQuestion();
+            }
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerBar();
+                if (timeLeft <= 0) {
+                    handleAnswer(null);
+                }
+            }, 1000);
+        }
+
+        function updateTimerBar() {
+            timerBar.style.width = `${(timeLeft / 10) * 100}%`;
+        }
+
+        function updateDisplay() {
+            lifePointsElement.textContent = `Life Points: ${'❤️'.repeat(lifePoints)}`;
+            remainingQuestionsElement.textContent = `Questions Left: ${remainingQuestions}`;
+            streakElement.innerHTML = '';
+            for (let i = 0; i < streak; i++) {
+                const img = document.createElement('img');
+                img.src = imageList[i % imageList.length];
+                streakElement.appendChild(img);
+            }
+        }
+
+        function showFeedbackModal() {
+            feedbackMessage.textContent = `Correct answer: ${currentQuestion.kanji} - ${currentQuestion.meaning}`;
+            feedbackModal.style.display = 'block';
+        }
+
+        function showStreakModal() {
+            streakModal.style.display = 'block';
+        }
+
+        function endGame() {
+            gameStarted = false;
+            gameArea.style.display = 'none';
+            startButton.style.display = 'inline-block';
+            pauseButton.style.display = 'none';
+            alert('Game Over! Click Start to play again.');
+        }
+
+        // Close modal when clicking on <span> (x)
+        document.querySelectorAll('.close').forEach(closeButton => {
+            closeButton.onclick = function() {
+                this.closest('.modal').style.display = 'none';
+            }
+        });
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
