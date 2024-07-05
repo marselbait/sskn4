@@ -1,12 +1,19 @@
+Great, it looks like you've successfully uploaded your image to the `immgs` folder in your GitHub repository. Now let's update the HTML and JavaScript code to use this image.
+
+### Updated HTML and JavaScript Code
+
+Here's how you can update your code to use the `pb.png` image from the `immgs` folder:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speed Speed Kanji N4</title>
+    <title>Suika Game - Kanji Learning</title>
     <style>
         body {
-            font-family: Helvetica, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,11 +46,12 @@
             transition: width 1s linear;
         }
         .streak {
+            font-size: 24px;
             margin-bottom: 10px;
         }
-        .streak-image {
-            width: 30px;
-            height: 30px;
+        .streak img {
+            width: 32px;
+            height: 32px;
             margin-right: 5px;
         }
         .question {
@@ -106,7 +114,7 @@
 </head>
 <body>
     <div class="game-container">
-        <h1>Speed Speed Kanji N4</h1>
+        <h1>Suika Game - Kanji Learning</h1>
         <div id="game-area" style="display:none;">
             <div class="timer"><div class="timer-bar"></div></div>
             <div class="streak" id="streak"></div>
@@ -159,7 +167,18 @@
             { kanji: '話', meaning: 'To talk, story' },
         ];
 
-        const streakImageUrl = 'https://raw.githubusercontent.com/sskn4/immgs/pb.png';
+        const imageList = [
+            'immgs/pb.png',  // Update this path based on your folder structure
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png',
+            'immgs/pb.png'
+        ];
 
         let lifePoints = 5;
         let remainingQuestions = kanjiList.length;
@@ -245,76 +264,3 @@
                     showStreakModal();
                 }
             } else {
-                lifePoints--;
-                streak = 0;
-                showFeedbackModal();
-            }
-            updateDisplay();
-            if (lifePoints <= 0) {
-                endGame();
-            } else {
-                nextQuestion();
-            }
-        }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerBar();
-                if (timeLeft <= 0) {
-                    handleAnswer(null);
-                }
-            }, 1000);
-        }
-
-        function updateTimerBar() {
-            timerBar.style.width = `${(timeLeft / 10) * 100}%`;
-        }
-
-        function updateDisplay() {
-            lifePointsElement.textContent = `Life Points: ${'❤️'.repeat(lifePoints)}`;
-            remainingQuestionsElement.textContent = `Questions Left: ${remainingQuestions}`;
-            streakElement.innerHTML = '';
-            for (let i = 0; i < streak; i++) {
-                const img = document.createElement('img');
-                img.src = streakImageUrl;
-                img.alt = 'Streak';
-                img.className = 'streak-image';
-                streakElement.appendChild(img);
-            }
-        }
-
-        function showFeedbackModal() {
-            feedbackMessage.textContent = `Correct answer: ${currentQuestion.kanji} - ${currentQuestion.meaning}`;
-            feedbackModal.style.display = 'block';
-        }
-
-        function showStreakModal() {
-            streakModal.style.display = 'block';
-        }
-
-        function endGame() {
-            gameStarted = false;
-            gameArea.style.display = 'none';
-            startButton.style.display = 'inline-block';
-            pauseButton.style.display = 'none';
-            alert('Game Over! Click Start to play again.');
-        }
-
-        // Close modal when clicking on <span> (x)
-        document.querySelectorAll('.close').forEach(closeButton => {
-            closeButton.onclick = function() {
-                this.closest('.modal').style.display = 'none';
-            }
-        });
-
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                event.target.style.display = 'none';
-            }
-        }
-    </script>
-</body>
-</html>
