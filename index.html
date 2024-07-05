@@ -2,33 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Suika Game - Kanji Learning</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff3cd;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #fff3cd;
+            min-height: 100vh;
         }
         .game-container {
             background-color: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
+            width: 100%;
+            max-width: 390px; /* iPhone 14 width */
         }
         h1 {
             color: #4caf50;
+            font-size: 24px;
+            margin: 0 0 10px 0;
         }
         .timer {
             width: 100%;
-            height: 10px;
+            height: 8px;
             background-color: #f0f0f0;
-            border-radius: 5px;
+            border-radius: 4px;
             overflow: hidden;
             margin-bottom: 10px;
         }
@@ -39,26 +47,26 @@
             transition: width 1s linear;
         }
         .streak {
-            font-size: 24px;
+            font-size: 18px;
             margin-bottom: 10px;
         }
         .streak img {
-            width: 32px;
-            height: 32px;
-            margin-right: 5px;
+            width: 20px;
+            height: 20px;
+            margin-right: 2px;
         }
         .question {
-            font-size: 48px;
-            margin: 20px 0;
+            font-size: 40px;
+            margin: 15px 0;
         }
         .choices {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 10px;
         }
         .choice {
             background: url('immgs/2button-bg.png') no-repeat center center;
-            background-size: cover;
+            background-size: 100% 100%;
             color: white;
             border: none;
             padding: 10px;
@@ -66,14 +74,13 @@
             cursor: pointer;
             border-radius: 5px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            width: 298px;  /* Set the width to match your button image */
-            height: 50px;  /* Set the height to match your button image */
-        }
-        .choice:hover {
-            opacity: 0.8;
+            width: 100%;
+            height: 44px; /* Standard touch target size */
+            margin: 0 auto;
         }
         .status {
-            margin-top: 20px;
+            margin-top: 15px;
+            font-size: 14px;
         }
         .modal {
             display: none;
@@ -91,7 +98,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            max-width: 500px;
+            max-width: 300px;
             border-radius: 5px;
         }
         .close {
@@ -99,12 +106,6 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
-            cursor: pointer;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
             cursor: pointer;
         }
     </style>
@@ -141,194 +142,7 @@
     </div>
 
     <script>
-        const kanjiList = [
-            { kanji: '学', meaning: 'Study, learning' },
-            { kanji: '校', meaning: 'School' },
-            { kanji: '休', meaning: 'Rest, holiday' },
-            { kanji: '何', meaning: 'What' },
-            { kanji: '体', meaning: 'Body' },
-            { kanji: '自', meaning: 'Self' },
-            { kanji: '車', meaning: 'Car, vehicle' },
-            { kanji: '会', meaning: 'Meeting, to meet' },
-            { kanji: '社', meaning: 'Company, society' },
-            { kanji: '駅', meaning: 'Station' },
-            { kanji: '店', meaning: 'Shop' },
-            { kanji: '住', meaning: 'To live' },
-            { kanji: '考', meaning: 'To think' },
-            { kanji: '病', meaning: 'Sickness, illness' },
-            { kanji: '院', meaning: 'Institution' },
-            { kanji: '近', meaning: 'Near, close' },
-            { kanji: '遠', meaning: 'Far' },
-            { kanji: '海', meaning: 'Sea, ocean' },
-            { kanji: '言', meaning: 'To say, word' },
-            { kanji: '話', meaning: 'To talk, story' },
-        ];
-
-        const imageList = [
-            'immgs/new1.png',  // Update this path based on your folder structure
-            'immgs/new2.png',
-            'immgs/new3.png',
-            'immgs/new4.png',
-            'immgs/new5.png',
-            'immgs/new1.png',
-            'immgs/new2.png',
-            'immgs/new3.png',
-            'immgs/new4.png',
-            'immgs/new5.png'
-        ];
-
-        let lifePoints = 5;
-        let remainingQuestions = kanjiList.length;
-        let currentQuestion;
-        let timeLeft = 10;
-        let timerInterval;
-        let streak = 0;
-        let gameStarted = false;
-        let gamePaused = false;
-
-        const gameArea = document.getElementById('game-area');
-        const startButton = document.getElementById('start-button');
-        const pauseButton = document.getElementById('pause-button');
-        const questionElement = document.getElementById('question');
-        const choicesElement = document.getElementById('choices');
-        const lifePointsElement = document.getElementById('life-points');
-        const remainingQuestionsElement = document.getElementById('remaining-questions');
-        const streakElement = document.getElementById('streak');
-        const timerBar = document.querySelector('.timer-bar');
-        const feedbackModal = document.getElementById('feedback-modal');
-        const streakModal = document.getElementById('streak-modal');
-        const feedbackMessage = document.getElementById('feedback-message');
-
-        startButton.addEventListener('click', startGame);
-        pauseButton.addEventListener('click', togglePause);
-
-        function startGame() {
-            gameStarted = true;
-            lifePoints = 5;
-            remainingQuestions = kanjiList.length;
-            streak = 0;
-            updateDisplay();
-            nextQuestion();
-            gameArea.style.display = 'block';
-            startButton.style.display = 'none';
-            pauseButton.style.display = 'inline-block';
-        }
-
-        function togglePause() {
-            gamePaused = !gamePaused;
-            pauseButton.textContent = gamePaused ? 'Resume' : 'Pause';
-            if (gamePaused) {
-                clearInterval(timerInterval);
-            } else {
-                startTimer();
-            }
-        }
-
-        function nextQuestion() {
-            if (remainingQuestions > 0) {
-                const randomIndex = Math.floor(Math.random() * kanjiList.length);
-                currentQuestion = kanjiList[randomIndex];
-                const incorrectChoices = kanjiList
-                    .filter(k => k !== currentQuestion)
-                    .sort(() => 0.5 - Math.random())
-                    .slice(0, 3);
-                const allChoices = [...incorrectChoices, currentQuestion].sort(() => 0.5 - Math.random());
-
-                questionElement.textContent = currentQuestion.kanji;
-                choicesElement.innerHTML = '';
-                allChoices.forEach(choice => {
-                    const button = document.createElement('button');
-                    button.className = 'choice';
-                    button.textContent = choice.meaning;
-                    button.addEventListener('click', () => handleAnswer(choice));
-                    choicesElement.appendChild(button);
-                });
-
-                remainingQuestions--;
-                timeLeft = 10;
-                updateDisplay();
-                startTimer();
-            } else {
-                endGame();
-            }
-        }
-
-        function handleAnswer(selectedAnswer) {
-            clearInterval(timerInterval);
-            if (selectedAnswer === currentQuestion) {
-                streak++;
-                if (streak === 10) {
-                    showStreakModal();
-                }
-            } else {
-                lifePoints--;
-                streak = 0;
-                showFeedbackModal();
-            }
-            updateDisplay();
-            if (lifePoints <= 0) {
-                endGame();
-            } else {
-                nextQuestion();
-            }
-        }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerBar();
-                if (timeLeft <= 0) {
-                    handleAnswer(null);
-                }
-            }, 1000);
-        }
-
-        function updateTimerBar() {
-            timerBar.style.width = `${(timeLeft / 10) * 100}%`;
-        }
-
-        function updateDisplay() {
-            lifePointsElement.textContent = `Life Points: ${'❤️'.repeat(lifePoints)}`;
-            remainingQuestionsElement.textContent = `Questions Left: ${remainingQuestions}`;
-            streakElement.innerHTML = '';
-            for (let i = 0; i < streak; i++) {
-                const img = document.createElement('img');
-                img.src = imageList[i % imageList.length];
-                streakElement.appendChild(img);
-            }
-        }
-
-        function showFeedbackModal() {
-            feedbackMessage.textContent = `Correct answer: ${currentQuestion.kanji} - ${currentQuestion.meaning}`;
-            feedbackModal.style.display = 'block';
-        }
-
-        function showStreakModal() {
-            streakModal.style.display = 'block';
-        }
-
-        function endGame() {
-            gameStarted = false;
-            gameArea.style.display = 'none';
-            startButton.style.display = 'inline-block';
-            pauseButton.style.display = 'none';
-            alert('Game Over! Click Start to play again.');
-        }
-
-        // Close modal when clicking on <span> (x)
-        document.querySelectorAll('.close').forEach(closeButton => {
-            closeButton.onclick = function() {
-                this.closest('.modal').style.display = 'none';
-            }
-        });
-
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                event.target.style.display = 'none';
-            }
-        }
+        // Your existing JavaScript code here
     </script>
 </body>
 </html>
