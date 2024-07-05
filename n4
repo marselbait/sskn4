@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suika Game - Kanji Learning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff3cd;
+        }
+        .game-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #4caf50;
+        }
+        .timer {
+            width: 100%;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background-color: #ff4d4d;
+            transition: width 1s linear;
+        }
+        .streak {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .question {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .choice {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .choice:hover {
+            background-color: #45a049;
+        }
+        .status {
+            margin-top: 20px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Suika Game - Kanji Learning</h1>
+        <div id="game-area" style="display:none;">
+            <div class="timer"><div class="timer-bar"></div></div>
+            <div class="streak" id="streak"></div>
+            <div class="question" id="question"></div>
+            <div class="choices" id="choices"></div>
+            <div class="status">
+                <span id="life-points"></span>
+                <span id="remaining-questions"></span>
+            </div>
+        </div>
+        <button id="start-button">Start Game</button>
+        <button id="pause-button" style="display:none;">Pause</button>
+    </div>
+
+    <div id="feedback-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="feedback-message"></p>
+        </div>
+    </div>
+
+    <div id="streak-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>YOU ARE AMAZING!!!</p>
+        </div>
+    </div>
+
+    <script>
+        const kanjiList = [
+            { kanji: '学', meaning: 'Study, learning' },
+            { kanji: '校', meaning: 'School' },
+            { kanji: '休', meaning: 'Rest, holiday' },
+            { kanji: '何', meaning: 'What' },
+            { kanji: '体', meaning: 'Body' },
+            { kanji: '自', meaning: 'Self' },
+            { kanji: '車', meaning: 'Car, vehicle' },
+            { kanji: '会', meaning: 'Meeting, to meet' },
+            { kanji: '社', meaning: 'Company, society' },
+            { kanji: '駅', meaning: 'Station' },
+            { kanji: '店', meaning: 'Shop' },
+            { kanji: '住', meaning: 'To live' },
+            { kanji: '考', meaning: 'To think' },
+            { kanji: '病', meaning: 'Sickness, illness' },
+            { kanji: '院', meaning: 'Institution' },
+            { kanji: '近', meaning: 'Near, close' },
+            { kanji: '遠', meaning: 'Far' },
+            { kanji: '海', meaning: 'Sea, ocean' },
+            { kanji: '言', meaning: 'To say, word' },
+            { kanji: '話', meaning: 'To talk, story' },
+        ];
+
+        const fruitEmojis = ['🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍒', '🍑'];
+
+        let lifePoints = 5;
+        let remainingQuestions = kanjiList.length;
+        let currentQuestion;
+        let timeLeft = 10;
+        let timerInterval;
+        let streak = 0;
+        let gameStarted = false;
+        let gamePaused = false;
+
+        const gameArea = document.getElementById('game-area');
+        const startButton = document.getElementById('start-button');
+        const pauseButton = document.getElementById('pause-button');
+        const questionElement = document.getElementById('question');
+        const choicesElement = document.getElementById('choices');
+        const lifePointsElement = document.getElementById('life-points');
+        const remainingQuestionsElement = document.getElementById('remaining-questions');
+        const streakElement = document.getElementById('streak');
+        const timerBar = document.querySelector('.timer-bar');
+        const feedbackModal = document.getElementById('feedback-modal');
+        const streakModal = document.getElementById('streak-modal');
+        const feedbackMessage = document.getElementById('feedback-message');
+
+        startButton.addEventListener('click', startGame);
+        pauseButton.addEventListener('click', togglePause);
+
+        function startGame() {
+            gameStarted = true;
+            lifePoints = 5;
+            remainingQuestions = kanjiList.length;
+            streak = 0;
+            updateDisplay();
+            nextQuestion();
+            gameArea.style.display = 'block';
+            startButton.style.display = 'none';
+            pauseButton.style.display = 'inline-block';
+        }
+
+        function togglePause() {
+            gamePaused = !gamePaused;
+            pauseButton.textContent = gamePaused ? 'Resume' : 'Pause';
+            if (gamePaused) {
+                clearInterval(timerInterval);
+            } else {
+                startTimer();
+            }
+        }
+
+        function nextQuestion() {
+            if (remainingQuestions > 0) {
+                const randomIndex = Math.floor(Math.random() * kanjiList.length);
+                currentQuestion = kanjiList[randomIndex];
+                const incorrectChoices = kanjiList
+                    .filter(k => k !== currentQuestion)
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3);
+                const allChoices = [...incorrectChoices, currentQuestion].sort(() => 0.5 - Math.random());
+
+                questionElement.textContent = currentQuestion.kanji;
+                choicesElement.innerHTML = '';
+                allChoices.forEach(choice => {
+                    const button = document.createElement('button');
+                    button.className = 'choice';
+                    button.textContent = choice.meaning;
+                    button.addEventListener('click', () => handleAnswer(choice));
+                    choicesElement.appendChild(button);
+                });
+
+                remainingQuestions--;
+                timeLeft = 10;
+                updateDisplay();
+                startTimer();
+            } else {
+                endGame();
+            }
+        }
+
+        function handleAnswer(selectedAnswer) {
+            clearInterval(timerInterval);
+            if (selectedAnswer === currentQuestion) {
+                streak++;
+                if (streak === 10) {
+                    showStreakModal();
+                }
+            } else {
+                lifePoints--;
+                streak = 0;
+                showFeedbackModal();
+            }
+            updateDisplay();
+            if (lifePoints <= 0) {
+                endGame();
+            } else {
+                nextQuestion();
+            }
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerBar();
+                if (timeLeft <= 0) {
+                    handleAnswer(null);
+                }
+            }, 1000);
+        }
+
+        function updateTimerBar() {
+            timerBar.style.width = `${(timeLeft / 10) * 100}%`;
+        }
+
+        function updateDisplay() {
+            lifePointsElement.textContent = `Life Points: ${'❤️'.repeat(lifePoints)}`;
+            remainingQuestionsElement.textContent = `Questions Left: ${remainingQuestions}`;
+            streakElement.textContent = fruitEmojis.slice(0, streak).join(' ');
+        }
+
+        function showFeedbackModal() {
+            feedbackMessage.textContent = `Correct answer: ${currentQuestion.kanji} - ${currentQuestion.meaning}`;
+            feedbackModal.style.display = 'block';
+        }
+
+        function showStreakModal() {
+            streakModal.style.display = 'block';
+        }
+
+        function endGame() {
+            gameStarted = false;
+            gameArea.style.display = 'none';
+            startButton.style.display = 'inline-block';
+            pauseButton.style.display = 'none';
+            alert('Game Over! Click Start to play again.');
+        }
+
+        // Close modal when clicking on <span> (x)
+        document.querySelectorAll('.close').forEach(closeButton => {
+            closeButton.onclick = function() {
+                this.closest('.modal').style.display = 'none';
+            }
+        });
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
