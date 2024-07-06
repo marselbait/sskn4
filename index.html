@@ -1,3 +1,6 @@
+Here is the updated HTML with the specified changes:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +31,7 @@
             max-width: 390px; /* iPhone 14 width */
         }
         h1 {
-            color: #4caf50;
+            color: #4d4d4d; /* Changed font color */
             font-size: 24px;
             margin: 0 0 10px 0;
         }
@@ -67,6 +70,11 @@
             font-size: 80px;
             margin: 0;
             color: #4d4d4d; /* Changed Kanji text color */
+        }
+        .reading {
+            font-size: 24px;
+            color: #4d4d4d; /* Changed reading text color */
+            margin-top: 5px;
         }
         .choices {
             display: grid;
@@ -124,6 +132,9 @@
             .question {
                 font-size: 60px;
             }
+            .reading {
+                font-size: 18px;
+            }
             .choice {
                 font-size: 14px;
                 height: 40px;
@@ -139,6 +150,7 @@
             <div class="streak" id="streak"></div>
             <div class="question-card">
                 <div class="question" id="question"></div>
+                <div class="reading" id="reading"></div>
             </div>
             <div class="choices" id="choices"></div>
             <div class="status">
@@ -147,7 +159,6 @@
             </div>
         </div>
         <button id="start-button" class="choice">Start Game</button>
-        <button id="pause-button" class="choice" style="display:none;">Pause</button>
     </div>
 
     <div id="feedback-modal" class="modal">
@@ -165,28 +176,27 @@
     </div>
 
     <script>
-        // Your existing JavaScript code here
         const kanjiList = [
-            { kanji: '学', meaning: 'Study, learning' },
-            { kanji: '校', meaning: 'School' },
-            { kanji: '休', meaning: 'Rest, holiday' },
-            { kanji: '何', meaning: 'What' },
-            { kanji: '体', meaning: 'Body' },
-            { kanji: '自', meaning: 'Self' },
-            { kanji: '車', meaning: 'Car, vehicle' },
-            { kanji: '会', meaning: 'Meeting, to meet' },
-            { kanji: '社', meaning: 'Company, society' },
-            { kanji: '駅', meaning: 'Station' },
-            { kanji: '店', meaning: 'Shop' },
-            { kanji: '住', meaning: 'To live' },
-            { kanji: '考', meaning: 'To think' },
-            { kanji: '病', meaning: 'Sickness, illness' },
-            { kanji: '院', meaning: 'Institution' },
-            { kanji: '近', meaning: 'Near, close' },
-            { kanji: '遠', meaning: 'Far' },
-            { kanji: '海', meaning: 'Sea, ocean' },
-            { kanji: '言', meaning: 'To say, word' },
-            { kanji: '話', meaning: 'To talk, story' },
+            { kanji: '学', meaning: 'Study, learning', reading: 'がく' },
+            { kanji: '校', meaning: 'School', reading: 'こう' },
+            { kanji: '休', meaning: 'Rest, holiday', reading: 'きゅう' },
+            { kanji: '何', meaning: 'What', reading: 'なに' },
+            { kanji: '体', meaning: 'Body', reading: 'たい' },
+            { kanji: '自', meaning: 'Self', reading: 'じ' },
+            { kanji: '車', meaning: 'Car, vehicle', reading: 'しゃ' },
+            { kanji: '会', meaning: 'Meeting, to meet', reading: 'かい' },
+            { kanji: '社', meaning: 'Company, society', reading: 'しゃ' },
+            { kanji: '駅', meaning: 'Station', reading: 'えき' },
+            { kanji: '店', meaning: 'Shop', reading: 'てん' },
+            { kanji: '住', meaning: 'To live', reading: 'じゅう' },
+            { kanji: '考', meaning: 'To think', reading: 'こう' },
+            { kanji: '病', meaning: 'Sickness, illness', reading: 'びょう' },
+            { kanji: '院', meaning: 'Institution', reading: 'いん' },
+            { kanji: '近', meaning: 'Near, close', reading: 'きん' },
+            { kanji: '遠', meaning: 'Far', reading: 'えん' },
+            { kanji: '海', meaning: 'Sea, ocean', reading: 'かい' },
+            { kanji: '言', meaning: 'To say, word', reading: 'げん' },
+            { kanji: '話', meaning: 'To talk, story', reading: 'わ' },
         ];
 
         const imageList = [
@@ -209,12 +219,11 @@
         let timerInterval;
         let streak = 0;
         let gameStarted = false;
-        let gamePaused = false;
 
         const gameArea = document.getElementById('game-area');
         const startButton = document.getElementById('start-button');
-        const pauseButton = document.getElementById('pause-button');
         const questionElement = document.getElementById('question');
+        const readingElement = document.getElementById('reading');
         const choicesElement = document.getElementById('choices');
         const lifePointsElement = document.getElementById('life-points');
         const remainingQuestionsElement = document.getElementById('remaining-questions');
@@ -224,8 +233,9 @@
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
 
-        startButton.addEventListener('click', startGame);
-        pauseButton.addEventListener('click', togglePause);
+        startButton.addEventListener('click', startGame
+
+);
 
         function startGame() {
             gameStarted = true;
@@ -236,18 +246,7 @@
             nextQuestion();
             gameArea.style.display = 'block';
             startButton.style.display = 'none';
-            pauseButton.style.display = 'inline-block';
             document.getElementById('game-title').textContent = "Kei's Ghost Chase"; // Updated title
-        }
-
-        function togglePause() {
-            gamePaused = !gamePaused;
-            pauseButton.textContent = gamePaused ? 'Resume' : 'Pause';
-            if (gamePaused) {
-                clearInterval(timerInterval);
-            } else {
-                startTimer();
-            }
         }
 
         function nextQuestion() {
@@ -261,6 +260,7 @@
                 const allChoices = [...incorrectChoices, currentQuestion].sort(() => 0.5 - Math.random());
 
                 questionElement.textContent = currentQuestion.kanji;
+                readingElement.textContent = currentQuestion.reading;
                 choicesElement.innerHTML = '';
                 allChoices.forEach(choice => {
                     const button = document.createElement('button');
@@ -338,7 +338,6 @@
             gameStarted = false;
             gameArea.style.display = 'none';
             startButton.style.display = 'inline-block';
-            pauseButton.style.display = 'none';
             alert('Game Over! Click Start to play again.');
         }
 
@@ -358,3 +357,9 @@
     </script>
 </body>
 </html>
+```
+
+Changes made:
+- The font color of the title "Kei's Ghost Chase" is changed to `#4d4d4d`.
+- The pause function is removed.
+- Added the Kanji reading below the Kanji text directly.
