@@ -25,7 +25,10 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
             width: 100%;
-            max-width: 390px; /* iPhone 14 width */
+            max-width: 800px; /* Adjusted for split screen */
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
         }
         h1 {
             color: #4d4d4d; /* Changed font color */
@@ -62,6 +65,8 @@
             padding: 20px;
             margin: 15px 0;
             box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Added subtle drop shadow */
+            width: 50%; /* Split screen */
+            text-align: center;
         }
         .question {
             font-size: 80px;
@@ -95,6 +100,12 @@
         .status {
             margin-top: 15px;
             font-size: 14px;
+            text-align: left; /* Align to the left for better appearance */
+            width: 50%; /* Split screen */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .modal {
             display: none;
@@ -136,26 +147,34 @@
                 font-size: 14px;
                 height: 40px;
             }
+            .game-container {
+                flex-direction: column;
+            }
+            .question-card, .status {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1 id="game-title">Kei's Ghost Chase - N4 Kanji Quiz</h1>
-        <div id="game-area" style="display:none;">
-            <div class="timer"><div class="timer-bar"></div></div>
-            <div class="streak" id="streak"></div>
-            <div class="question-card">
-                <div class="question" id="question"></div>
-                <div class="reading" id="reading"></div>
+        <div class="question-card">
+            <h1 id="game-title">Kei's Ghost Chase - N4 Kanji Quiz</h1>
+            <div id="game-area" style="display:none;">
+                <div class="timer"><div class="timer-bar"></div></div>
+                <div class="streak" id="streak"></div>
+                <div class="question-card">
+                    <div class="question" id="question"></div>
+                    <div class="reading" id="reading"></div>
+                </div>
+                <div class="choices" id="choices"></div>
             </div>
-            <div class="choices" id="choices"></div>
-            <div class="status">
-                <span id="life-points"></span>
-                <span id="remaining-questions"></span>
-            </div>
+            <button id="start-button" class="choice">Start Game</button>
         </div>
-        <button id="start-button" class="choice">Start Game</button>
+        <div class="status">
+            <span id="life-points"></span>
+            <span id="remaining-questions"></span>
+        </div>
     </div>
 
     <div id="feedback-modal" class="modal">
@@ -230,9 +249,7 @@
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
 
-        startButton.addEventListener('click', startGame
-
-);
+        startButton.addEventListener('click', startGame);
 
         function startGame() {
             gameStarted = true;
