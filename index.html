@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=no">
-    <title>Kei's Ghost Chase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Suika Game - Kanji Learning</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,7 +12,7 @@
             font-family: Helvetica, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #414148;
+            background-color: #414148; /* Changed background color */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,39 +28,50 @@
             max-width: 390px; /* iPhone 14 width */
         }
         h1 {
-            color: #4d4d4d;
+            color: #4d4d4d; /* Changed font color */
             font-size: 24px;
             margin: 0 0 10px 0;
         }
-        .game-area {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-top: 20px;
+        .timer {
+            width: 100%;
+            height: 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
         }
-        .question-container {
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background-color: #ff4d4d;
+            transition: width 1s linear;
+        }
+        .streak {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .streak img {
+            width: 20px;
+            height: 20px;
+            margin-right: 2px;
+        }
+        .question-card {
             background-color: #f8f8f8;
             border: 1px solid #ddd;
             border-radius: 10px;
             padding: 20px;
             margin: 15px 0;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            width: 45%;
-            text-align: left;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Added subtle drop shadow */
         }
         .question {
             font-size: 80px;
             margin: 0;
-            color: #4d4d4d;
+            color: #4d4d4d; /* Changed Kanji text color */
         }
         .reading {
             font-size: 24px;
-            color: #4d4d4d;
+            color: #4d4d4d; /* Changed reading text color */
             margin-top: 5px;
-        }
-        .info-container {
-            width: 45%;
-            text-align: left;
         }
         .choices {
             display: grid;
@@ -78,26 +89,12 @@
             border-radius: 5px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             width: 100%;
-            height: 44px;
+            height: 44px; /* Standard touch target size */
             margin: 0 auto;
         }
         .status {
             margin-top: 15px;
             font-size: 14px;
-        }
-        .timer {
-            width: 100%;
-            height: 8px;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        .timer-bar {
-            height: 100%;
-            width: 100%;
-            background-color: #ff4d4d;
-            transition: width 1s linear;
         }
         .modal {
             display: none;
@@ -139,32 +136,23 @@
                 font-size: 14px;
                 height: 40px;
             }
-            .game-area {
-                flex-direction: column;
-                align-items: center;
-            }
-            .question-container,
-            .info-container {
-                width: 100%;
-            }
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1 id="game-title">Kei's Ghost Chase</h1>
-        <div class="game-area" id="game-area" style="display:none;">
-            <div class="question-container">
+        <h1 id="game-title">Suika Game - Kanji Learning</h1>
+        <div id="game-area" style="display:none;">
+            <div class="timer"><div class="timer-bar"></div></div>
+            <div class="streak" id="streak"></div>
+            <div class="question-card">
                 <div class="question" id="question"></div>
                 <div class="reading" id="reading"></div>
-                <div class="choices" id="choices"></div>
             </div>
-            <div class="info-container">
-                <div class="status">
-                    <div class="timer"><div class="timer-bar" id="timer-bar"></div></div>
-                    <div id="life-points"></div>
-                    <div id="remaining-questions"></div>
-                </div>
+            <div class="choices" id="choices"></div>
+            <div class="status">
+                <span id="life-points"></span>
+                <span id="remaining-questions"></span>
             </div>
         </div>
         <button id="start-button" class="choice">Start Game</button>
@@ -237,12 +225,14 @@
         const lifePointsElement = document.getElementById('life-points');
         const remainingQuestionsElement = document.getElementById('remaining-questions');
         const streakElement = document.getElementById('streak');
-        const timerBar = document.getElementById('timer-bar');
+        const timerBar = document.querySelector('.timer-bar');
         const feedbackModal = document.getElementById('feedback-modal');
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
 
-        startButton.addEventListener('click', startGame);
+        startButton.addEventListener('click', startGame
+
+);
 
         function startGame() {
             gameStarted = true;
@@ -251,9 +241,9 @@
             streak = 0;
             updateDisplay();
             nextQuestion();
-            gameArea.style.display = 'flex';
+            gameArea.style.display = 'block';
             startButton.style.display = 'none';
-            document.getElementById('game-title').textContent = "Kei's Ghost Chase";
+            document.getElementById('game-title').textContent = "Kei's Ghost Chase"; // Updated title
         }
 
         function nextQuestion() {
@@ -348,12 +338,14 @@
             alert('Game Over! Click Start to play again.');
         }
 
+        // Close modal when clicking on <span> (x)
         document.querySelectorAll('.close').forEach(closeButton => {
             closeButton.onclick = function() {
                 this.closest('.modal').style.display = 'none';
             }
         });
 
+        // Close modal when clicking outside of it
         window.onclick = function(event) {
             if (event.target.className === 'modal') {
                 event.target.style.display = 'none';
