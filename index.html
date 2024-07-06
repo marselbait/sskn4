@@ -55,9 +55,17 @@
             height: 20px;
             margin-right: 2px;
         }
-        .question {
-            font-size: 40px;
+        .question-card {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
             margin: 15px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .question {
+            font-size: 80px;
+            margin: 0;
         }
         .choices {
             display: grid;
@@ -113,7 +121,7 @@
                 font-size: 20px;
             }
             .question {
-                font-size: 30px;
+                font-size: 60px;
             }
             .choice {
                 font-size: 14px;
@@ -128,7 +136,9 @@
         <div id="game-area" style="display:none;">
             <div class="timer"><div class="timer-bar"></div></div>
             <div class="streak" id="streak"></div>
-            <div class="question" id="question"></div>
+            <div class="question-card">
+                <div class="question" id="question"></div>
+            </div>
             <div class="choices" id="choices"></div>
             <div class="status">
                 <span id="life-points"></span>
