@@ -32,36 +32,20 @@
             font-size: 24px;
             margin: 0 0 10px 0;
         }
-        .timer {
-            width: 100%;
-            height: 8px;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 10px;
+        .game-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
-        .timer-bar {
-            height: 100%;
-            width: 100%;
-            background-color: #ff4d4d;
-            transition: width 1s linear;
-        }
-        .streak {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .streak img {
-            width: 20px;
-            height: 20px;
-            margin-right: 2px;
-        }
-        .question-card {
+        .question-container {
             background-color: #f8f8f8;
             border: 1px solid #ddd;
             border-radius: 10px;
             padding: 20px;
             margin: 15px 0;
             box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Added subtle drop shadow */
+            width: 50%; /* Adjusted width */
+            text-align: left;
         }
         .question {
             font-size: 80px;
@@ -72,6 +56,10 @@
             font-size: 24px;
             color: #4d4d4d; /* Changed reading text color */
             margin-top: 5px;
+        }
+        .info-container {
+            width: 45%; /* Adjusted width */
+            text-align: left;
         }
         .choices {
             display: grid;
@@ -136,23 +124,32 @@
                 font-size: 14px;
                 height: 40px;
             }
+            .game-area {
+                flex-direction: column;
+                align-items: center;
+            }
+            .question-container,
+            .info-container {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="game-container">
         <h1 id="game-title">Suika Game - Kanji Learning</h1>
-        <div id="game-area" style="display:none;">
-            <div class="timer"><div class="timer-bar"></div></div>
-            <div class="streak" id="streak"></div>
-            <div class="question-card">
+        <div class="game-area" id="game-area" style="display:none;">
+            <div class="question-container">
                 <div class="question" id="question"></div>
                 <div class="reading" id="reading"></div>
+                <div class="choices" id="choices"></div>
             </div>
-            <div class="choices" id="choices"></div>
-            <div class="status">
-                <span id="life-points"></span>
-                <span id="remaining-questions"></span>
+            <div class="info-container">
+                <div class="status">
+                    <div class="timer"><div class="timer-bar"></div></div>
+                    <span id="life-points"></span>
+                    <span id="remaining-questions"></span>
+                </div>
             </div>
         </div>
         <button id="start-button" class="choice">Start Game</button>
@@ -230,9 +227,7 @@
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
 
-        startButton.addEventListener('click', startGame
-
-);
+        startButton.addEventListener('click', startGame);
 
         function startGame() {
             gameStarted = true;
@@ -241,7 +236,7 @@
             streak = 0;
             updateDisplay();
             nextQuestion();
-            gameArea.style.display = 'block';
+            gameArea.style.display = 'flex';
             startButton.style.display = 'none';
             document.getElementById('game-title').textContent = "Kei's Ghost Chase"; // Updated title
         }
