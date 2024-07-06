@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Suika Game - Kanji Learning</title>
+    <title>Kei's Ghost Chase</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,7 +12,7 @@
             font-family: Helvetica, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #414148; /* Changed background color */
+            background-color: #414148;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,7 +28,7 @@
             max-width: 390px; /* iPhone 14 width */
         }
         h1 {
-            color: #4d4d4d; /* Changed font color */
+            color: #4d4d4d;
             font-size: 24px;
             margin: 0 0 10px 0;
         }
@@ -36,6 +36,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            margin-top: 20px;
         }
         .question-container {
             background-color: #f8f8f8;
@@ -43,22 +44,22 @@
             border-radius: 10px;
             padding: 20px;
             margin: 15px 0;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Added subtle drop shadow */
-            width: 50%; /* Adjusted width */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            width: 45%;
             text-align: left;
         }
         .question {
             font-size: 80px;
             margin: 0;
-            color: #4d4d4d; /* Changed Kanji text color */
+            color: #4d4d4d;
         }
         .reading {
             font-size: 24px;
-            color: #4d4d4d; /* Changed reading text color */
+            color: #4d4d4d;
             margin-top: 5px;
         }
         .info-container {
-            width: 45%; /* Adjusted width */
+            width: 45%;
             text-align: left;
         }
         .choices {
@@ -77,12 +78,26 @@
             border-radius: 5px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             width: 100%;
-            height: 44px; /* Standard touch target size */
+            height: 44px;
             margin: 0 auto;
         }
         .status {
             margin-top: 15px;
             font-size: 14px;
+        }
+        .timer {
+            width: 100%;
+            height: 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background-color: #ff4d4d;
+            transition: width 1s linear;
         }
         .modal {
             display: none;
@@ -137,7 +152,7 @@
 </head>
 <body>
     <div class="game-container">
-        <h1 id="game-title">Suika Game - Kanji Learning</h1>
+        <h1 id="game-title">Kei's Ghost Chase</h1>
         <div class="game-area" id="game-area" style="display:none;">
             <div class="question-container">
                 <div class="question" id="question"></div>
@@ -147,8 +162,8 @@
             <div class="info-container">
                 <div class="status">
                     <div class="timer"><div class="timer-bar"></div></div>
-                    <span id="life-points"></span>
-                    <span id="remaining-questions"></span>
+                    <div id="life-points"></div>
+                    <div id="remaining-questions"></div>
                 </div>
             </div>
         </div>
@@ -238,7 +253,7 @@
             nextQuestion();
             gameArea.style.display = 'flex';
             startButton.style.display = 'none';
-            document.getElementById('game-title').textContent = "Kei's Ghost Chase"; // Updated title
+            document.getElementById('game-title').textContent = "Kei's Ghost Chase";
         }
 
         function nextQuestion() {
