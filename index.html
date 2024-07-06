@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=no">
     <title>Kei's Ghost Chase</title>
     <style>
         * {
@@ -161,7 +161,7 @@
             </div>
             <div class="info-container">
                 <div class="status">
-                    <div class="timer"><div class="timer-bar"></div></div>
+                    <div class="timer"><div class="timer-bar" id="timer-bar"></div></div>
                     <div id="life-points"></div>
                     <div id="remaining-questions"></div>
                 </div>
@@ -237,7 +237,7 @@
         const lifePointsElement = document.getElementById('life-points');
         const remainingQuestionsElement = document.getElementById('remaining-questions');
         const streakElement = document.getElementById('streak');
-        const timerBar = document.querySelector('.timer-bar');
+        const timerBar = document.getElementById('timer-bar');
         const feedbackModal = document.getElementById('feedback-modal');
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
@@ -348,14 +348,12 @@
             alert('Game Over! Click Start to play again.');
         }
 
-        // Close modal when clicking on <span> (x)
         document.querySelectorAll('.close').forEach(closeButton => {
             closeButton.onclick = function() {
                 this.closest('.modal').style.display = 'none';
             }
         });
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             if (event.target.className === 'modal') {
                 event.target.style.display = 'none';
