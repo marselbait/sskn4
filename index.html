@@ -1,4 +1,4 @@
-Current  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@ Current  <!DOCTYPE html>
             font-family: Helvetica, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #414148; /* Changed background color */
+            background-color: #414148;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,10 +25,10 @@ Current  <!DOCTYPE html>
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
             width: 100%;
-            max-width: 390px; /* iPhone 14 width */
+            max-width: 390px;
         }
         h1 {
-            color: #4d4d4d; /* Changed font color */
+            color: #4d4d4d;
             font-size: 24px;
             margin: 0 0 10px 0;
         }
@@ -39,12 +39,28 @@ Current  <!DOCTYPE html>
             border-radius: 4px;
             overflow: hidden;
             margin-bottom: 10px;
+            position: relative; /* Needed for absolute positioning of circles */
         }
         .timer-bar {
             height: 100%;
             width: 100%;
             background-color: #ff4d4d;
             transition: width 1s linear;
+        }
+        .circle {
+            width: 16px;
+            height: 16px;
+            background-color: #ff4d4d;
+            border-radius: 50%;
+            position: absolute;
+            top: -4px; /* Adjust according to the timer-bar height */
+        }
+        .left-circle {
+            left: -8px; /* Adjust to position the circle correctly */
+        }
+        .right-circle {
+            left: calc(100% - 8px); /* Start position */
+            transition: left 1s linear;
         }
         .streak {
             font-size: 18px;
@@ -61,16 +77,16 @@ Current  <!DOCTYPE html>
             border-radius: 10px;
             padding: 20px;
             margin: 15px 0;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Added subtle drop shadow */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
         .question {
             font-size: 80px;
             margin: 0;
-            color: #4d4d4d; /* Changed Kanji text color */
+            color: #4d4d4d;
         }
         .reading {
             font-size: 24px;
-            color: #4d4d4d; /* Changed reading text color */
+            color: #4d4d4d;
             margin-top: 5px;
         }
         .choices {
@@ -89,7 +105,7 @@ Current  <!DOCTYPE html>
             border-radius: 5px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             width: 100%;
-            height: 44px; /* Standard touch target size */
+            height: 44px;
             margin: 0 auto;
         }
         .status {
@@ -143,7 +159,11 @@ Current  <!DOCTYPE html>
     <div class="game-container">
         <h1 id="game-title">Kei's Ghost Chase - N4 Kanji Quiz</h1>
         <div id="game-area" style="display:none;">
-            <div class="timer"><div class="timer-bar"></div></div>
+            <div class="timer">
+                <div class="circle left-circle"></div>
+                <div class="timer-bar"></div>
+                <div class="circle right-circle"></div>
+            </div>
             <div class="streak" id="streak"></div>
             <div class="question-card">
                 <div class="question" id="question"></div>
@@ -197,7 +217,7 @@ Current  <!DOCTYPE html>
         ];
 
         const imageList = [
-            'immgs/new1.png',  // Update this path based on your folder structure
+            'immgs/new1.png',
             'immgs/new2.png',
             'immgs/new3.png',
             'immgs/new4.png',
@@ -230,9 +250,7 @@ Current  <!DOCTYPE html>
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
 
-        startButton.addEventListener('click', startGame
-
-);
+        startButton.addEventListener('click', startGame);
 
         function startGame() {
             gameStarted = true;
@@ -243,7 +261,7 @@ Current  <!DOCTYPE html>
             nextQuestion();
             gameArea.style.display = 'block';
             startButton.style.display = 'none';
-            document.getElementById('game-title').textContent = "Kei's Ghost Chase"; // Updated title
+            document.getElementById('game-title').textContent = "Kei's Ghost Chase";
         }
 
         function nextQuestion() {
@@ -308,7 +326,10 @@ Current  <!DOCTYPE html>
         }
 
         function updateTimerBar() {
-            timerBar.style.width = `${(timeLeft / 10) * 100}%`;
+            const progress = (timeLeft / 10) * 100;
+            timerBar.style.width = `${progress}%`;
+            const rightCircle = document.querySelector('.right-circle');
+            rightCircle.style.left = `calc(${progress}% - 8px)`;
         }
 
         function updateDisplay() {
@@ -338,14 +359,12 @@ Current  <!DOCTYPE html>
             alert('Game Over! Click Start to play again.');
         }
 
-        // Close modal when clicking on <span> (x)
         document.querySelectorAll('.close').forEach(closeButton => {
             closeButton.onclick = function() {
                 this.closest('.modal').style.display = 'none';
             }
         });
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             if (event.target.className === 'modal') {
                 event.target.style.display = 'none';
