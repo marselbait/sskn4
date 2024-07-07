@@ -200,6 +200,9 @@
         </div>
     </div>
 
+    <audio id="background-music" src="nwjns.mp3" loop></audio>
+    <audio id="click-sound" src="music/click.mp3"></audio>
+
     <script>
         const kanjiList = [
             { kanji: '学', meaning: 'Study, learning', reading: 'がく' },
@@ -259,7 +262,13 @@
         const feedbackMessage = document.getElementById('feedback-message');
         const movingCircle = document.querySelector('.moving-circle');
 
-        startButton.addEventListener('click', startGame);
+        const backgroundMusic = document.getElementById('background-music');
+        const clickSound = document.getElementById('click-sound');
+
+        startButton.addEventListener('click', () => {
+            startGame();
+            backgroundMusic.play();
+        });
 
         function startGame() {
             gameStarted = true;
@@ -290,7 +299,10 @@
                     const button = document.createElement('button');
                     button.className = 'choice';
                     button.textContent = choice.meaning;
-                    button.addEventListener('click', () => handleAnswer(choice));
+                    button.addEventListener('click', () => {
+                        handleAnswer(choice);
+                        clickSound.play();
+                    });
                     choicesElement.appendChild(button);
                 });
 
