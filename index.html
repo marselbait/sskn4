@@ -1,4 +1,4 @@
-Current  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -38,12 +38,12 @@ Current  <!DOCTYPE html>
             background-color: #f0f0f0;
             border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin: 10px 0; /* Added margin to separate from other elements */
         }
         .timer-bar {
             height: 100%;
             width: 100%;
-            background-color: #ff4d4d;
+            background-color: #4d4d4d; /* Changed timer bar color */
             transition: width 1s linear;
         }
         .streak {
@@ -143,12 +143,12 @@ Current  <!DOCTYPE html>
     <div class="game-container">
         <h1 id="game-title">Kei's Ghost Chase - N4 Kanji Quiz</h1>
         <div id="game-area" style="display:none;">
-            <div class="timer"><div class="timer-bar"></div></div>
             <div class="streak" id="streak"></div>
             <div class="question-card">
                 <div class="question" id="question"></div>
                 <div class="reading" id="reading"></div>
             </div>
+            <div class="timer"><div class="timer-bar"></div></div>
             <div class="choices" id="choices"></div>
             <div class="status">
                 <span id="life-points"></span>
@@ -230,9 +230,7 @@ Current  <!DOCTYPE html>
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
 
-        startButton.addEventListener('click', startGame
-
-);
+        startButton.addEventListener('click', startGame);
 
         function startGame() {
             gameStarted = true;
