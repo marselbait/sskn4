@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Current  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -55,18 +55,13 @@
             height: 20px;
             margin-right: 2px;
         }
-        .cards-container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .question-card, .status-card {
+        .question-card {
             background-color: #f8f8f8;
             border: 1px solid #ddd;
             border-radius: 10px;
             padding: 20px;
             margin: 15px 0;
             box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Added subtle drop shadow */
-            width: 48%;
         }
         .question {
             font-size: 80px;
@@ -141,12 +136,6 @@
                 font-size: 14px;
                 height: 40px;
             }
-            .cards-container {
-                flex-direction: column;
-            }
-            .question-card, .status-card {
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -156,19 +145,15 @@
         <div id="game-area" style="display:none;">
             <div class="timer"><div class="timer-bar"></div></div>
             <div class="streak" id="streak"></div>
-            <div class="cards-container">
-                <div class="question-card">
-                    <div class="question" id="question"></div>
-                    <div class="reading" id="reading"></div>
-                </div>
-                <div class="status-card">
-                    <div class="status">
-                        <span id="life-points"></span>
-                        <span id="remaining-questions"></span>
-                    </div>
-                </div>
+            <div class="question-card">
+                <div class="question" id="question"></div>
+                <div class="reading" id="reading"></div>
             </div>
             <div class="choices" id="choices"></div>
+            <div class="status">
+                <span id="life-points"></span>
+                <span id="remaining-questions"></span>
+            </div>
         </div>
         <button id="start-button" class="choice">Start Game</button>
     </div>
@@ -245,7 +230,9 @@
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
 
-        startButton.addEventListener('click', startGame);
+        startButton.addEventListener('click', startGame
+
+);
 
         function startGame() {
             gameStarted = true;
