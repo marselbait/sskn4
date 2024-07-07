@@ -47,6 +47,17 @@
             background-color: #4d4d4d; /* Changed timer bar color */
             transition: width 1s linear;
         }
+        .circle-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        .circle {
+            width: 10px;
+            height: 10px;
+            background-color: #4d4d4d;
+            border-radius: 50%;
+        }
         .streak {
             font-size: 18px;
             margin-bottom: 10px;
@@ -123,21 +134,6 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .circle {
-            width: 10px;
-            height: 10px;
-            background-color: #4d4d4d;
-            border-radius: 50%;
-            position: absolute;
-            bottom: -5px; /* Positioned under the timer bar */
-        }
-        .left-circle {
-            left: 0;
-        }
-        .moving-circle {
-            left: 0;
-            transition: left 1s linear;
-        }
         @media (max-width: 600px) {
             h1 {
                 font-size: 20px;
@@ -166,6 +162,8 @@
             </div>
             <div class="timer">
                 <div class="timer-bar"></div>
+            </div>
+            <div class="circle-container">
                 <div class="circle left-circle"></div>
                 <div class="circle moving-circle"></div>
             </div>
