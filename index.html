@@ -33,6 +33,7 @@
             margin: 0 0 10px 0;
         }
         .timer {
+            position: relative;
             width: 100%;
             height: 8px;
             background-color: #f0f0f0;
@@ -40,11 +41,39 @@
             overflow: hidden;
             margin-bottom: 10px;
         }
+        .timer:before, .timer:after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #4d4d4d;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .timer:before {
+            left: 0;
+        }
+        .timer:after {
+            right: 0;
+        }
         .timer-bar {
             height: 100%;
             width: 100%;
             background-color: #4d4d4d;
             transition: width 1s linear;
+            position: relative;
+        }
+        .timer-bar:before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #4d4d4d;
+            border-radius: 50%;
+            top: 50%;
+            right: 0;
+            transform: translate(50%, -50%);
         }
         .streak {
             font-size: 18px;
@@ -352,3 +381,4 @@
     </script>
 </body>
 </html>
+
