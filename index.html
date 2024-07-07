@@ -39,6 +39,7 @@
             border-radius: 4px;
             overflow: hidden;
             margin: 10px 0; /* Added margin to separate from other elements */
+            position: relative; /* For positioning the circles */
         }
         .timer-bar {
             height: 100%;
@@ -122,6 +123,21 @@
             font-weight: bold;
             cursor: pointer;
         }
+        .circle {
+            width: 10px;
+            height: 10px;
+            background-color: #4d4d4d;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -5px; /* Positioned under the timer bar */
+        }
+        .left-circle {
+            left: 0;
+        }
+        .moving-circle {
+            left: 0;
+            transition: left 1s linear;
+        }
         @media (max-width: 600px) {
             h1 {
                 font-size: 20px;
@@ -148,7 +164,11 @@
                 <div class="question" id="question"></div>
                 <div class="reading" id="reading"></div>
             </div>
-            <div class="timer"><div class="timer-bar"></div></div>
+            <div class="timer">
+                <div class="timer-bar"></div>
+                <div class="circle left-circle"></div>
+                <div class="circle moving-circle"></div>
+            </div>
             <div class="choices" id="choices"></div>
             <div class="status">
                 <span id="life-points"></span>
@@ -229,6 +249,7 @@
         const feedbackModal = document.getElementById('feedback-modal');
         const streakModal = document.getElementById('streak-modal');
         const feedbackMessage = document.getElementById('feedback-message');
+        const movingCircle = document.querySelector('.moving-circle');
 
         startButton.addEventListener('click', startGame);
 
@@ -299,6 +320,7 @@
             timerInterval = setInterval(() => {
                 timeLeft--;
                 updateTimerBar();
+                updateMovingCircle();
                 if (timeLeft <= 0) {
                     handleAnswer(null);
                 }
@@ -307,6 +329,10 @@
 
         function updateTimerBar() {
             timerBar.style.width = `${(timeLeft / 10) * 100}%`;
+        }
+
+        function updateMovingCircle() {
+            movingCircle.style.left = `${(timeLeft / 10) * 100}%`;
         }
 
         function updateDisplay() {
