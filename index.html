@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kei's Ghost Chase - N4 Kanji Quiz</title>
+    <title>KMomo's Adventure - N4 Kanji Quiz</title>
     <style>
         * {
             box-sizing: border-box;
@@ -59,13 +59,13 @@
         }
         .left-circle {
             left: 0;
-            background: url('immgs/kei.png') no-repeat center center;
+            background: url('immgs/momo.png') no-repeat center center;
             background-size: cover;
         }
         .moving-circle {
             left: 0;
             transition: left 1s linear;
-            background: url('immgs/ghost.png') no-repeat center center;
+            background: url('immgs/cckrch.png') no-repeat center center;
             background-size: cover;
         }
         .streak {
@@ -163,7 +163,7 @@
 </head>
 <body>
     <div class="game-container">
-        <h1 id="game-title">Kei's Ghost Chase - N4 Kanji Quiz</h1>
+        <h1 id="game-title">Momo's Adventure - N4 Kanji Quiz</h1>
         <div id="game-area" style="display:none;">
             <div class="streak" id="streak"></div>
             <div class="question-card">
@@ -280,7 +280,7 @@
             nextQuestion();
             gameArea.style.display = 'block';
             startButton.style.display = 'none';
-            document.getElementById('game-title').textContent = "Kei's Ghost Chase"; // Updated title
+            document.getElementById('game-title').textContent = "Momo's Adventure"; // Updated title
         }
 
         function nextQuestion() {
