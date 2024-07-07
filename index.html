@@ -271,7 +271,8 @@
         let lifePoints = 5;
         let remainingQuestions = kanjiList.length;
         let currentQuestion;
-        let timeLeft = 10;
+        let correctAnswers = 0;
+        let timeLeft = 15;
         let timerInterval;
         let streak = 0;
         let gameStarted = false;
@@ -295,7 +296,7 @@
 
         startButton.addEventListener('click', () => {
             startGame();
-            backgroundMusic.volume = 0.3;
+            backgroundMusic.volume = 0.1;
             backgroundMusic.play();
         });
 
@@ -303,6 +304,7 @@
             gameStarted = true;
             lifePoints = 5;
             remainingQuestions = kanjiList.length;
+            correctAnswers = 0;
             streak = 0;
             updateDisplay();
             nextQuestion();
@@ -336,7 +338,7 @@
                 });
 
                 remainingQuestions--;
-                timeLeft = 10;
+                timeLeft = 15;
                 updateDisplay();
                 startTimer();
             } else {
@@ -347,6 +349,7 @@
         function handleAnswer(selectedAnswer) {
             clearInterval(timerInterval);
             if (selectedAnswer === currentQuestion) {
+                correctAnswers++;
                 streak++;
                 if (streak === 10) {
                     showStreakModal();
@@ -377,11 +380,11 @@
         }
 
         function updateTimerBar() {
-            timerBar.style.width = `${(timeLeft / 10) * 100}%`;
+            timerBar.style.width = `${(timeLeft / 15) * 100}%`;
         }
 
         function updateMovingCircle() {
-            movingCircle.style.left = `${(timeLeft / 10) * 100}%`;
+            movingCircle.style.left = `${(timeLeft / 15) * 100}%`;
         }
 
         function updateDisplay() {
@@ -408,7 +411,7 @@
             gameStarted = false;
             gameArea.style.display = 'none';
             startButton.style.display = 'inline-block';
-            alert('Game Over! Click Start to play again.');
+            alert(`Game Over! Your score is ${correctAnswers}/${kanjiList.length}. Click Start to play again.`);
         }
 
         document.querySelectorAll('.close').forEach(closeButton => {
