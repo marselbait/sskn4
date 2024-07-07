@@ -12,7 +12,7 @@
             font-family: Helvetica, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #414148; /* Changed background color */
+            background-color: #414148;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,10 +25,10 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
             width: 100%;
-            max-width: 390px; /* iPhone 14 width */
+            max-width: 390px;
         }
         h1 {
-            color: #4d4d4d; /* Changed font color */
+            color: #4d4d4d;
             font-size: 24px;
             margin: 0 0 10px 0;
         }
@@ -38,22 +38,22 @@
             background-color: #f0f0f0;
             border-radius: 4px;
             overflow: hidden;
-            margin: 10px 0; /* Added margin to separate from other elements */
-            position: relative; /* For positioning the circles */
+            margin: 10px 0;
+            position: relative;
         }
         .timer-bar {
             height: 100%;
             width: 100%;
-            background-color: #4d4d4d; /* Changed timer bar color */
+            background-color: #4d4d4d;
             transition: width 1s linear;
         }
         .circle-container {
-            position: relative; /* For positioning the moving circle */
-            height: 40px; /* Adjust as needed */
+            position: relative;
+            height: 40px;
         }
         .circle {
-            width: 40px; /* Made circles 40x40 px */
-            height: 40px; /* Made circles 40x40 px */
+            width: 40px;
+            height: 40px;
             position: absolute;
             bottom: 0;
         }
@@ -83,16 +83,16 @@
             border-radius: 10px;
             padding: 20px;
             margin: 15px 0;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Added subtle drop shadow */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
         .question {
             font-size: 80px;
             margin: 0;
-            color: #4d4d4d; /* Changed Kanji text color */
+            color: #4d4d4d;
         }
         .reading {
             font-size: 24px;
-            color: #4d4d4d; /* Changed reading text color */
+            color: #4d4d4d;
             margin-top: 5px;
         }
         .choices {
@@ -111,7 +111,7 @@
             border-radius: 5px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             width: 100%;
-            height: 44px; /* Standard touch target size */
+            height: 44px;
             margin: 0 auto;
         }
         .status {
@@ -205,30 +205,58 @@
 
     <script>
         const kanjiList = [
-            { kanji: '学', meaning: 'Study, learning', reading: 'がく' },
-            { kanji: '校', meaning: 'School', reading: 'こう' },
-            { kanji: '休', meaning: 'Rest, holiday', reading: 'きゅう' },
-            { kanji: '何', meaning: 'What', reading: 'なに' },
-            { kanji: '体', meaning: 'Body', reading: 'たい' },
-            { kanji: '自', meaning: 'Self', reading: 'じ' },
-            { kanji: '車', meaning: 'Car, vehicle', reading: 'しゃ' },
-            { kanji: '会', meaning: 'Meeting, to meet', reading: 'かい' },
+            { kanji: '同', meaning: 'Same, agree', reading: 'おなじ' },
+            { kanji: '事', meaning: 'Thing, matter', reading: 'こと' },
             { kanji: '社', meaning: 'Company, society', reading: 'しゃ' },
-            { kanji: '駅', meaning: 'Station', reading: 'えき' },
-            { kanji: '店', meaning: 'Shop', reading: 'てん' },
-            { kanji: '住', meaning: 'To live', reading: 'じゅう' },
-            { kanji: '考', meaning: 'To think', reading: 'こう' },
-            { kanji: '病', meaning: 'Sickness, illness', reading: 'びょう' },
-            { kanji: '院', meaning: 'Institution', reading: 'いん' },
-            { kanji: '近', meaning: 'Near, close', reading: 'きん' },
-            { kanji: '遠', meaning: 'Far', reading: 'えん' },
-            { kanji: '海', meaning: 'Sea, ocean', reading: 'かい' },
-            { kanji: '言', meaning: 'To say, word', reading: 'げん' },
-            { kanji: '話', meaning: 'To talk, story', reading: 'わ' },
+            { kanji: '発', meaning: 'Departure, emit', reading: 'はつ' },
+            { kanji: '者', meaning: 'Person', reading: 'もの' },
+            { kanji: '地', meaning: 'Ground, earth', reading: 'ち' },
+            { kanji: '業', meaning: 'Business, vocation', reading: 'ぎょう' },
+            { kanji: '方', meaning: 'Direction, person', reading: 'ほう' },
+            { kanji: '新', meaning: 'New', reading: 'あたらしい' },
+            { kanji: '場', meaning: 'Place', reading: 'ば' },
+            { kanji: '員', meaning: 'Member', reading: 'いん' },
+            { kanji: '立', meaning: 'Stand up', reading: 'たつ' },
+            { kanji: '開', meaning: 'Open', reading: 'あける' },
+            { kanji: '手', meaning: 'Hand', reading: 'て' },
+            { kanji: '力', meaning: 'Power, strength', reading: 'ちから' },
+            { kanji: '問', meaning: 'Question, ask', reading: 'とう' },
+            { kanji: '代', meaning: 'Substitute, generation', reading: 'かわり' },
+            { kanji: '明', meaning: 'Bright, clear', reading: 'あかるい' },
+            { kanji: '動', meaning: 'Move', reading: 'うごく' },
+            { kanji: '京', meaning: 'Capital', reading: 'きょう' },
+            { kanji: '目', meaning: 'Eye', reading: 'め' },
+            { kanji: '通', meaning: 'Pass through, commute', reading: 'とおる' },
+            { kanji: '言', meaning: 'Say, word', reading: 'いう' },
+            { kanji: '理', meaning: 'Logic, reason', reading: 'り' },
+            { kanji: '体', meaning: 'Body', reading: 'からだ' },
+            { kanji: '田', meaning: 'Rice field', reading: 'た' },
+            { kanji: '主', meaning: 'Master, main', reading: 'ぬし' },
+            { kanji: '題', meaning: 'Topic, title', reading: 'だい' },
+            { kanji: '意', meaning: 'Mind, meaning', reading: 'い' },
+            { kanji: '不', meaning: 'Negative, non-', reading: 'ふ' },
+            { kanji: '作', meaning: 'Make, create', reading: 'つくる' },
+            { kanji: '用', meaning: 'Utilize, use', reading: 'もちいる' },
+            { kanji: '度', meaning: 'Degrees, time', reading: 'たび' },
+            { kanji: '強', meaning: 'Strong', reading: 'つよい' },
+            { kanji: '公', meaning: 'Public, official', reading: 'おおやけ' },
+            { kanji: '持', meaning: 'Hold, have', reading: 'もつ' },
+            { kanji: '野', meaning: 'Field, plains', reading: 'の' },
+            { kanji: '以', meaning: 'Than, by means of', reading: 'い' },
+            { kanji: '思', meaning: 'Think', reading: 'おもう' },
+            { kanji: '家', meaning: 'House, home', reading: 'いえ' },
+            { kanji: '世', meaning: 'World, society', reading: 'よ' },
+            { kanji: '多', meaning: 'Many', reading: 'おおい' },
+            { kanji: '正', meaning: 'Correct', reading: 'ただしい' },
+            { kanji: '安', meaning: 'Cheap, safe', reading: 'やすい' },
+            { kanji: '院', meaning: 'Institution, temple', reading: 'いん' },
+            { kanji: '心', meaning: 'Heart, mind', reading: 'こころ' },
+            { kanji: '界', meaning: 'Boundary, world', reading: 'かい' },
+            { kanji: '教', meaning: 'Teach, instruct', reading: 'おしえる' },
         ];
 
         const imageList = [
-            'immgs/new1.png',  // Update this path based on your folder structure
+            'immgs/new1.png',
             'immgs/new2.png',
             'immgs/new3.png',
             'immgs/new4.png',
@@ -267,7 +295,7 @@
 
         startButton.addEventListener('click', () => {
             startGame();
-            backgroundMusic.volume = 0.3; // Decrease volume by 70%
+            backgroundMusic.volume = 0.3;
             backgroundMusic.play();
         });
 
@@ -280,7 +308,7 @@
             nextQuestion();
             gameArea.style.display = 'block';
             startButton.style.display = 'none';
-            document.getElementById('game-title').textContent = "Momo's Adventure"; // Updated title
+            document.getElementById('game-title').textContent = "Momo's Adventure";
         }
 
         function nextQuestion() {
@@ -383,14 +411,12 @@
             alert('Game Over! Click Start to play again.');
         }
 
-        // Close modal when clicking on <span> (x)
         document.querySelectorAll('.close').forEach(closeButton => {
             closeButton.onclick = function() {
                 this.closest('.modal').style.display = 'none';
             }
         });
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             if (event.target.className === 'modal') {
                 event.target.style.display = 'none';
