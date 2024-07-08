@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Current (n4 script hard)   <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,7 +26,6 @@
             text-align: center;
             width: 100%;
             max-width: 390px;
-            display: none;
         }
         h1 {
             color: #4d4d4d;
@@ -160,28 +159,9 @@
                 height: 40px;
             }
         }
-        .loading {
-            background-color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .loading-square {
-            width: 50px;
-            height: 50px;
-            background-color: black;
-        }
     </style>
 </head>
 <body>
-    <div class="loading">
-        <div class="loading-square"></div>
-    </div>
     <div class="game-container">
         <h1 id="game-title">Momo's Adventure - N4 Kanji Quiz</h1>
         <div id="game-area" style="display:none;">
@@ -225,32 +205,56 @@
 
     <script>
         const kanjiList = [
-            { kanji: 'スーパー', meaning: 'Supermarket', reading: 'suupaa' },
-            { kanji: 'セール', meaning: 'Sale', reading: 'seeru' },
-            { kanji: 'ほとんど', meaning: 'Most (of)', reading: 'ほとんど' },
-            { kanji: '品物', meaning: 'Articles, Products', reading: 'しなもの' },
-            { kanji: '割引き', meaning: 'Discount', reading: 'わりびき' },
-            { kanji: '半額', meaning: 'Half price', reading: 'はんがく' },
-            { kanji: 'うれしい', meaning: 'Glad', reading: 'うれしい' },
-            { kanji: '特に', meaning: 'In particular', reading: 'とくに' },
-            { kanji: '冷凍 (する)', meaning: 'To freeze', reading: 'れいとう する' },
-            { kanji: '食品', meaning: 'Food', reading: 'しょくひん' },
-            { kanji: '必ず', meaning: 'To be sure to', reading: 'かならず' },
-            { kanji: '先輩', meaning: 'Senior colleague', reading: 'せんぱい' },
-            { kanji: '式', meaning: 'Ceremony', reading: 'しき' },
-            { kanji: 'ちょうどいい', meaning: 'Suitable; just right', reading: 'ちょうどいい' },
-            { kanji: 'スーツ', meaning: 'Suit', reading: 'スーツ' },
-            { kanji: 'ドレス', meaning: 'Dress', reading: 'ドレス' },
-            { kanji: 'ぜんぜん〜ない', meaning: 'Not ~ at all', reading: 'ぜんぜん ない' },
-            { kanji: '決める', meaning: 'To decide', reading: 'きめる' },
-            { kanji: 'ショッピング', meaning: 'Shopping', reading: 'ショ
+            { kanji: '同', meaning: 'Same, agree', reading: 'おなじ' },
+            { kanji: '事', meaning: 'Thing, matter', reading: 'こと' },
+            { kanji: '社', meaning: 'Company, society', reading: 'しゃ' },
+            { kanji: '発', meaning: 'Departure, emit', reading: 'はつ' },
+            { kanji: '者', meaning: 'Person', reading: 'もの' },
+            { kanji: '地', meaning: 'Ground, earth', reading: 'ち' },
+            { kanji: '業', meaning: 'Business, vocation', reading: 'ぎょう' },
+            { kanji: '方', meaning: 'Direction, person', reading: 'ほう' },
+            { kanji: '新', meaning: 'New', reading: 'あたらしい' },
+            { kanji: '場', meaning: 'Place', reading: 'ば' },
+            { kanji: '員', meaning: 'Member', reading: 'いん' },
+            { kanji: '立', meaning: 'Stand up', reading: 'たつ' },
+            { kanji: '開', meaning: 'Open', reading: 'あける' },
+            { kanji: '手', meaning: 'Hand', reading: 'て' },
+            { kanji: '力', meaning: 'Power, strength', reading: 'ちから' },
+            { kanji: '問', meaning: 'Question, ask', reading: 'とう' },
+            { kanji: '代', meaning: 'Substitute, generation', reading: 'かわり' },
+            { kanji: '明', meaning: 'Bright, clear', reading: 'あかるい' },
+            { kanji: '動', meaning: 'Move', reading: 'うごく' },
+            { kanji: '京', meaning: 'Capital', reading: 'きょう' },
+            { kanji: '目', meaning: 'Eye', reading: 'め' },
+            { kanji: '通', meaning: 'Pass through, commute', reading: 'とおる' },
+            { kanji: '言', meaning: 'Say, word', reading: 'いう' },
+            { kanji: '理', meaning: 'Logic, reason', reading
 
-ッピング' },
-            { kanji: '探す', meaning: 'To look for', reading: 'さがす' },
-            { kanji: 'のこる', meaning: 'To be left', reading: 'のこる' },
-            { kanji: '足りる', meaning: 'To be enough', reading: 'たりる' },
-            { kanji: '今夜', meaning: 'Tonight', reading: 'こんや' },
-            { kanji: '用意 (する)', meaning: 'Preparations; to prepare', reading: 'ようい する' },
+: 'り' },
+            { kanji: '体', meaning: 'Body', reading: 'からだ' },
+            { kanji: '田', meaning: 'Rice field', reading: 'た' },
+            { kanji: '主', meaning: 'Master, main', reading: 'ぬし' },
+            { kanji: '題', meaning: 'Topic, title', reading: 'だい' },
+            { kanji: '意', meaning: 'Mind, meaning', reading: 'い' },
+            { kanji: '不', meaning: 'Negative, non-', reading: 'ふ' },
+            { kanji: '作', meaning: 'Make, create', reading: 'つくる' },
+            { kanji: '用', meaning: 'Utilize, use', reading: 'もちいる' },
+            { kanji: '度', meaning: 'Degrees, time', reading: 'たび' },
+            { kanji: '強', meaning: 'Strong', reading: 'つよい' },
+            { kanji: '公', meaning: 'Public, official', reading: 'おおやけ' },
+            { kanji: '持', meaning: 'Hold, have', reading: 'もつ' },
+            { kanji: '野', meaning: 'Field, plains', reading: 'の' },
+            { kanji: '以', meaning: 'Than, by means of', reading: 'い' },
+            { kanji: '思', meaning: 'Think', reading: 'おもう' },
+            { kanji: '家', meaning: 'House, home', reading: 'いえ' },
+            { kanji: '世', meaning: 'World, society', reading: 'よ' },
+            { kanji: '多', meaning: 'Many', reading: 'おおい' },
+            { kanji: '正', meaning: 'Correct', reading: 'ただしい' },
+            { kanji: '安', meaning: 'Cheap, safe', reading: 'やすい' },
+            { kanji: '院', meaning: 'Institution, temple', reading: 'いん' },
+            { kanji: '心', meaning: 'Heart, mind', reading: 'こころ' },
+            { kanji: '界', meaning: 'Boundary, world', reading: 'かい' },
+            { kanji: '教', meaning: 'Teach, instruct', reading: 'おしえる' },
         ];
 
         const imageList = [
@@ -292,16 +296,9 @@
         const backgroundMusic = document.getElementById('background-music');
         const clickSound = document.getElementById('click-sound');
 
-        window.onload = function() {
-            setTimeout(() => {
-                document.querySelector('.loading').style.display = 'none';
-                document.querySelector('.game-container').style.display = 'block';
-            }, 2000);
-        }
-
         startButton.addEventListener('click', () => {
             startGame();
-            backgroundMusic.volume = 0.05; // Reduce background music volume by 50%
+            backgroundMusic.volume = 0.1;
             backgroundMusic.play();
         });
 
@@ -337,7 +334,7 @@
                     button.textContent = choice.meaning;
                     button.addEventListener('click', () => {
                         handleAnswer(choice);
-                        clickSound.volume = 0.2; // Set click sound volume to 100% louder
+                        clickSound.volume = 0.15; // Set click sound volume to 50% louder
                         clickSound.play();
                     });
                     choicesElement.appendChild(button);
