@@ -228,7 +228,9 @@
             { kanji: '目', meaning: 'Eye', reading: 'め' },
             { kanji: '通', meaning: 'Pass through, commute', reading: 'とおる' },
             { kanji: '言', meaning: 'Say, word', reading: 'いう' },
-            { kanji: '理', meaning: 'Logic, reason', reading: 'り' },
+            { kanji: '理', meaning: 'Logic, reason', reading
+
+: 'り' },
             { kanji: '体', meaning: 'Body', reading: 'からだ' },
             { kanji: '田', meaning: 'Rice field', reading: 'た' },
             { kanji: '主', meaning: 'Master, main', reading: 'ぬし' },
@@ -269,7 +271,7 @@
         ];
 
         let lifePoints = 5;
-        let remainingQuestions = kanjiList.length;
+        let remainingQuestions = 20; // Set the total number of questions per game to 20
         let currentQuestion;
         let correctAnswers = 0;
         let timeLeft = 15;
@@ -303,7 +305,7 @@
         function startGame() {
             gameStarted = true;
             lifePoints = 5;
-            remainingQuestions = kanjiList.length;
+            remainingQuestions = 20; // Set the remaining questions to 20 at the start of the game
             correctAnswers = 0;
             streak = 0;
             updateDisplay();
@@ -332,6 +334,7 @@
                     button.textContent = choice.meaning;
                     button.addEventListener('click', () => {
                         handleAnswer(choice);
+                        clickSound.volume = 0.15; // Set click sound volume to 50% louder
                         clickSound.play();
                     });
                     choicesElement.appendChild(button);
@@ -411,7 +414,7 @@
             gameStarted = false;
             gameArea.style.display = 'none';
             startButton.style.display = 'inline-block';
-            alert(`Game Over! Your score is ${correctAnswers}/${kanjiList.length}. Click Start to play again.`);
+            alert(`Game Over! Your score is ${correctAnswers}/20. Click Start to play again.`);
         }
 
         document.querySelectorAll('.close').forEach(closeButton => {
