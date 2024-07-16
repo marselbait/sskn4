@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KMomo's Adventure - N4 Kanji Quiz</title>
+    <title>Momo's Adventure - Hiragana & Katakana Quiz</title>
     <style>
         * {
             box-sizing: border-box;
@@ -163,7 +163,7 @@
 </head>
 <body>
     <div class="game-container">
-        <h1 id="game-title">Momo's Adventure - N4 Kanji Quiz</h1>
+        <h1 id="game-title">Momo's Adventure - Hiragana & Katakana Quiz</h1>
         <div id="game-area" style="display:none;">
             <div class="streak" id="streak"></div>
             <div class="question-card">
@@ -204,57 +204,101 @@
     <audio id="click-sound" src="music/click.mp3"></audio>
 
     <script>
-        const kanjiList = [
-            { kanji: '同', meaning: 'Same, agree', reading: 'おなじ' },
-            { kanji: '事', meaning: 'Thing, matter', reading: 'こと' },
-            { kanji: '社', meaning: 'Company, society', reading: 'しゃ' },
-            { kanji: '発', meaning: 'Departure, emit', reading: 'はつ' },
-            { kanji: '者', meaning: 'Person', reading: 'もの' },
-            { kanji: '地', meaning: 'Ground, earth', reading: 'ち' },
-            { kanji: '業', meaning: 'Business, vocation', reading: 'ぎょう' },
-            { kanji: '方', meaning: 'Direction, person', reading: 'ほう' },
-            { kanji: '新', meaning: 'New', reading: 'あたらしい' },
-            { kanji: '場', meaning: 'Place', reading: 'ば' },
-            { kanji: '員', meaning: 'Member', reading: 'いん' },
-            { kanji: '立', meaning: 'Stand up', reading: 'たつ' },
-            { kanji: '開', meaning: 'Open', reading: 'あける' },
-            { kanji: '手', meaning: 'Hand', reading: 'て' },
-            { kanji: '力', meaning: 'Power, strength', reading: 'ちから' },
-            { kanji: '問', meaning: 'Question, ask', reading: 'とう' },
-            { kanji: '代', meaning: 'Substitute, generation', reading: 'かわり' },
-            { kanji: '明', meaning: 'Bright, clear', reading: 'あかるい' },
-            { kanji: '動', meaning: 'Move', reading: 'うごく' },
-            { kanji: '京', meaning: 'Capital', reading: 'きょう' },
-            { kanji: '目', meaning: 'Eye', reading: 'め' },
-            { kanji: '通', meaning: 'Pass through, commute', reading: 'とおる' },
-            { kanji: '言', meaning: 'Say, word', reading: 'いう' },
-            { kanji: '理', meaning: 'Logic, reason', reading
-
-: 'り' },
-            { kanji: '体', meaning: 'Body', reading: 'からだ' },
-            { kanji: '田', meaning: 'Rice field', reading: 'た' },
-            { kanji: '主', meaning: 'Master, main', reading: 'ぬし' },
-            { kanji: '題', meaning: 'Topic, title', reading: 'だい' },
-            { kanji: '意', meaning: 'Mind, meaning', reading: 'い' },
-            { kanji: '不', meaning: 'Negative, non-', reading: 'ふ' },
-            { kanji: '作', meaning: 'Make, create', reading: 'つくる' },
-            { kanji: '用', meaning: 'Utilize, use', reading: 'もちいる' },
-            { kanji: '度', meaning: 'Degrees, time', reading: 'たび' },
-            { kanji: '強', meaning: 'Strong', reading: 'つよい' },
-            { kanji: '公', meaning: 'Public, official', reading: 'おおやけ' },
-            { kanji: '持', meaning: 'Hold, have', reading: 'もつ' },
-            { kanji: '野', meaning: 'Field, plains', reading: 'の' },
-            { kanji: '以', meaning: 'Than, by means of', reading: 'い' },
-            { kanji: '思', meaning: 'Think', reading: 'おもう' },
-            { kanji: '家', meaning: 'House, home', reading: 'いえ' },
-            { kanji: '世', meaning: 'World, society', reading: 'よ' },
-            { kanji: '多', meaning: 'Many', reading: 'おおい' },
-            { kanji: '正', meaning: 'Correct', reading: 'ただしい' },
-            { kanji: '安', meaning: 'Cheap, safe', reading: 'やすい' },
-            { kanji: '院', meaning: 'Institution, temple', reading: 'いん' },
-            { kanji: '心', meaning: 'Heart, mind', reading: 'こころ' },
-            { kanji: '界', meaning: 'Boundary, world', reading: 'かい' },
-            { kanji: '教', meaning: 'Teach, instruct', reading: 'おしえる' },
+        const kanaList = [
+            // Hiragana
+            { kana: 'あ', meaning: 'a' },
+            { kana: 'い', meaning: 'i' },
+            { kana: 'う', meaning: 'u' },
+            { kana: 'え', meaning: 'e' },
+            { kana: 'お', meaning: 'o' },
+            { kana: 'か', meaning: 'ka' },
+            { kana: 'き', meaning: 'ki' },
+            { kana: 'く', meaning: 'ku' },
+            { kana: 'け', meaning: 'ke' },
+            { kana: 'こ', meaning: 'ko' },
+            { kana: 'さ', meaning: 'sa' },
+            { kana: 'し', meaning: 'shi' },
+            { kana: 'す', meaning: 'su' },
+            { kana: 'せ', meaning: 'se' },
+            { kana: 'そ', meaning: 'so' },
+            { kana: 'た', meaning: 'ta' },
+            { kana: 'ち', meaning: 'chi' },
+            { kana: 'つ', meaning: 'tsu' },
+            { kana: 'て', meaning: 'te' },
+            { kana: 'と', meaning: 'to' },
+            { kana: 'な', meaning: 'na' },
+            { kana: 'に', meaning: 'ni' },
+            { kana: 'ぬ', meaning: 'nu' },
+            { kana: 'ね', meaning: 'ne' },
+            { kana: 'の', meaning: 'no' },
+            { kana: 'は', meaning: 'ha' },
+            { kana: 'ひ', meaning: 'hi' },
+            { kana: 'ふ', meaning: 'fu' },
+            { kana: 'へ', meaning: 'he' },
+            { kana: 'ほ', meaning: 'ho' },
+            { kana: 'ま', meaning: 'ma' },
+            { kana: 'み', meaning: 'mi' },
+            { kana: 'む', meaning: 'mu' },
+            { kana: 'め', meaning: 'me' },
+            { kana: 'も', meaning: 'mo' },
+            { kana: 'や', meaning: 'ya' },
+            { kana: 'ゆ', meaning: 'yu' },
+            { kana: 'よ', meaning: 'yo' },
+            { kana: 'ら', meaning: 'ra' },
+            { kana: 'り', meaning: 'ri' },
+            { kana: 'る', meaning: 'ru' },
+            { kana: 'れ', meaning: 're' },
+            { kana: 'ろ', meaning: 'ro' },
+            { kana: 'わ', meaning: 'wa' },
+            { kana: 'を', meaning: 'wo' },
+            { kana: 'ん', meaning: 'n' },
+            // Katakana
+            { kana: 'ア', meaning: 'a' },
+            { kana: 'イ', meaning: 'i' },
+            { kana: 'ウ', meaning: 'u' },
+            { kana: 'エ', meaning: 'e' },
+            { kana: 'オ', meaning: 'o' },
+            { kana: 'カ', meaning: 'ka' },
+            { kana: 'キ', meaning: 'ki' },
+            { kana: 'ク', meaning: 'ku' },
+            { kana: 'ケ', meaning: 'ke' },
+            { kana: 'コ', meaning: 'ko' },
+            { kana: 'サ', meaning: 'sa' },
+            { kana: 'シ', meaning: 'shi' },
+            { kana: 'ス', meaning: 'su' },
+            { kana: 'セ', meaning: 'se' },
+            { kana: 'ソ', meaning: 'so' },
+            { kana: 'タ', meaning: 'ta' },
+            { kana: 'チ', meaning: 'chi' },
+            { kana: 'ツ', meaning: 'tsu' },
+            { kana: 'テ', meaning: 'te' },
+            { kana: 'ト', meaning: 'to' },
+            { kana: 'ナ', meaning: 'na' },
+            { kana: 'ニ', meaning: 'ni' },
+            { kana: 'ヌ', meaning: 'nu' },
+            { kana: 'ネ', meaning: 'ne' },
+            { kana: 'ノ', meaning: 'no' },
+            { kana: 'ハ', meaning: 'ha' },
+            { kana: 'ヒ', meaning: 'hi' },
+            { kana: 'フ', meaning: 'fu' },
+            { kana: 'ヘ', meaning: 'he' },
+            { kana: 'ホ', meaning: 'ho' },
+            { kana: 'マ', meaning: 'ma' },
+            { kana: 'ミ', meaning: 'mi' },
+            { kana: 'ム', meaning: 'mu' },
+            { kana: 'メ', meaning: 'me' },
+            { kana: 'モ', meaning: 'mo' },
+            { kana: 'ヤ', meaning: 'ya' },
+            { kana: 'ユ', meaning: 'yu' },
+            { kana: 'ヨ', meaning: 'yo' },
+            { kana: 'ラ', meaning: 'ra' },
+            { kana: 'リ', meaning: 'ri' },
+            { kana: 'ル', meaning: 'ru' },
+            { kana: 'レ', meaning: 're' },
+            { kana: 'ロ', meaning: 'ro' },
+            { kana: 'ワ', meaning: 'wa' },
+            { kana: 'ヲ', meaning: 'wo' },
+            { kana: 'ン', meaning: 'n' },
         ];
 
         const imageList = [
@@ -271,7 +315,7 @@
         ];
 
         let lifePoints = 5;
-        let remainingQuestions = 20; // Set the total number of questions per game to 20
+        let remainingQuestions = 50; // Set the total number of questions per game to 50
         let currentQuestion;
         let correctAnswers = 0;
         let timeLeft = 15;
@@ -305,7 +349,7 @@
         function startGame() {
             gameStarted = true;
             lifePoints = 5;
-            remainingQuestions = 20; // Set the remaining questions to 20 at the start of the game
+            remainingQuestions = 50; // Set the remaining questions to 50 at the start of the game
             correctAnswers = 0;
             streak = 0;
             updateDisplay();
@@ -317,16 +361,16 @@
 
         function nextQuestion() {
             if (remainingQuestions > 0) {
-                const randomIndex = Math.floor(Math.random() * kanjiList.length);
-                currentQuestion = kanjiList[randomIndex];
-                const incorrectChoices = kanjiList
+                const randomIndex = Math.floor(Math.random() * kanaList.length);
+                currentQuestion = kanaList[randomIndex];
+                const incorrectChoices = kanaList
                     .filter(k => k !== currentQuestion)
                     .sort(() => 0.5 - Math.random())
                     .slice(0, 3);
                 const allChoices = [...incorrectChoices, currentQuestion].sort(() => 0.5 - Math.random());
 
-                questionElement.textContent = currentQuestion.kanji;
-                readingElement.textContent = currentQuestion.reading;
+                questionElement.textContent = currentQuestion.kana;
+                readingElement.textContent = '';
                 choicesElement.innerHTML = '';
                 allChoices.forEach(choice => {
                     const button = document.createElement('button');
@@ -402,7 +446,7 @@
         }
 
         function showFeedbackModal() {
-            feedbackMessage.textContent = `Correct answer: ${currentQuestion.kanji} - ${currentQuestion.meaning}`;
+            feedbackMessage.textContent = `Correct answer: ${currentQuestion.kana} - ${currentQuestion.meaning}`;
             feedbackModal.style.display = 'block';
         }
 
@@ -414,7 +458,7 @@
             gameStarted = false;
             gameArea.style.display = 'none';
             startButton.style.display = 'inline-block';
-            alert(`Game Over! Your score is ${correctAnswers}/20. Click Start to play again.`);
+            alert(`Game Over! Your score is ${correctAnswers}/50. Click Start to play again.`);
         }
 
         document.querySelectorAll('.close').forEach(closeButton => {
