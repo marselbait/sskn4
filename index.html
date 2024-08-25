@@ -231,5 +231,232 @@
             { kanji: '飯', meaning: 'meal', reading: 'めし' },
             { kanji: '持つ', meaning: 'to hold', reading: 'もつ' },
             { kanji: '紙', meaning: 'paper', reading: 'かみ' },
-            { kanji: '住む
+            { kanji: '住む', meaning: 'to live', reading: 'すむ' },
+            { kanji: '所', meaning: 'place', reading: 'ところ' },
+            { kanji: '氏名', meaning: 'full name', reading: 'しめい' },
+            { kanji: '私', meaning: 'I', reading: 'わたし' },
+            { kanji: '手', meaning: 'hand', reading: 'て' },
+            { kanji: '洗う', meaning: 'to wash', reading: 'あらう' },
+            { kanji: '飲む', meaning: 'to drink', reading: 'のむ' },
+            { kanji: '好き', meaning: 'like', reading: 'すき' },
+            { kanji: '強い', meaning: 'strong', reading: 'つよい' },
+            { kanji: '使う', meaning: 'to use', reading: 'つかう' },
+            { kanji: '台', meaning: 'platform', reading: 'だい' },
+            { kanji: '理由', meaning: 'reason', reading: 'りゆう' },
+            { kanji: '回', meaning: 'times', reading: 'かい' },
+            { kanji: '朝', meaning: 'morning', reading: 'あさ' },
+            { kanji: '早い', meaning: 'early', reading: 'はやい' },
+            { kanji: '楽しい', meaning: 'fun', reading: 'たのしい' },
+            { kanji: '勉強', meaning: 'study', reading: 'べんきょう' },
+            { kanji: '研究', meaning: 'research', reading: 'けんきゅう' },
+            { kanji: '室', meaning: 'room', reading: 'しつ' },
+            { kanji: '仕事', meaning: 'work', reading: 'しごと' },
+            { kanji: '起きる', meaning: 'to wake up', reading: 'おきる' },
+            { kanji: '新しい', meaning: 'new', reading: 'あたらしい' },
+            { kanji: '近い', meaning: 'near', reading: 'ちかい' },
+            { kanji: '堂', meaning: 'hall', reading: 'どう' },
+            { kanji: '質', meaning: 'quality', reading: 'しつ' },
+            { kanji: '問題', meaning: 'problem', reading: 'もんだい' },
+            { kanji: '味', meaning: 'taste', reading: 'あじ' },
+            { kanji: '意味', meaning: 'meaning', reading: 'いみ' },
+            { kanji: '社会', meaning: 'society', reading: 'しゃかい' },
+            { kanji: '英語', meaning: 'English', reading: 'えいご' },
+            { kanji: '言う', meaning: 'to say', reading: 'いう' },
+            { kanji: '試験', meaning: 'exam', reading: 'しけん' },
+            { kanji: '始める', meaning: 'to begin', reading: 'はじめる' },
+            { kanji: '答え', meaning: 'answer', reading: 'こたえ' },
+            { kanji: '特別', meaning: 'special', reading: 'とくべつ' },
+            { kanji: '閉まる', meaning: 'to close', reading: 'しまる' },
+            { kanji: '走る', meaning: 'to run', reading: 'はしる' },
+            { kanji: '電車', meaning: 'train', reading: 'でんしゃ' },
+            { kanji: '買う', meaning: 'to buy', reading: 'かう' },
+            { kanji: '売る', meaning: 'to sell', reading: 'うる' },
+            { kanji: '服', meaning: 'clothes', reading: 'ふく' },
+            { kanji: '色', meaning: 'color', reading: 'いろ' },
+            { kanji: '洋服', meaning: 'Western-style clothes', reading: 'ようふく' },
+            { kanji: '黒い', meaning: 'black', reading: 'くろい' },
+            { kanji: '青い', meaning: 'blue', reading: 'あおい' },
+            { kanji: '緑', meaning: 'green', reading: 'みどり' },
+            { kanji: '急ぐ', meaning: 'to hurry', reading: 'いそぐ' },
+            { kanji: '曜日', meaning: 'day of the week', reading: 'ようび' },
+            { kanji: '図書館', meaning: 'library', reading: 'としょかん' },
+            { kanji: '友達', meaning: 'friend', reading: 'ともだち' },
+            { kanji: '借りる', meaning: 'to borrow', reading: 'かりる' },
+            { kanji: '地図', meaning: 'map', reading: 'ちず' },
+            { kanji: '時計', meaning: 'clock/watch', reading: 'とけい' }
+        ];
 
+        const imageList = [
+            'immgs/new1.png',
+            'immgs/new2.png',
+            'immgs/new3.png',
+            'immgs/new4.png',
+            'immgs/new5.png',
+            'immgs/new1.png',
+            'immgs/new2.png',
+            'immgs/new3.png',
+            'immgs/new4.png',
+            'immgs/new5.png'
+        ];
+
+        let lifePoints = 5;
+        let remainingQuestions = 20; // Set the total number of questions per game to 20
+        let currentQuestion;
+        let correctAnswers = 0;
+        let timeLeft = 15;
+        let timerInterval;
+        let streak = 0;
+        let gameStarted = false;
+
+        const gameArea = document.getElementById('game-area');
+        const startButton = document.getElementById('start-button');
+        const questionElement = document.getElementById('question');
+        const readingElement = document.getElementById('reading');
+        const choicesElement = document.getElementById('choices');
+        const lifePointsElement = document.getElementById('life-points');
+        const remainingQuestionsElement = document.getElementById('remaining-questions');
+        const streakElement = document.getElementById('streak');
+        const timerBar = document.querySelector('.timer-bar');
+        const feedbackModal = document.getElementById('feedback-modal');
+        const streakModal = document.getElementById('streak-modal');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const movingCircle = document.querySelector('.moving-circle');
+
+        const backgroundMusic = document.getElementById('background-music');
+        const clickSound = document.getElementById('click-sound');
+
+        startButton.addEventListener('click', () => {
+            startGame();
+            backgroundMusic.volume = 0.1;
+            backgroundMusic.play();
+        });
+
+        function startGame() {
+            gameStarted = true;
+            lifePoints = 5;
+            remainingQuestions = 20; // Set the remaining questions to 20 at the start of the game
+            correctAnswers = 0;
+            streak = 0;
+            updateDisplay();
+            nextQuestion();
+            gameArea.style.display = 'block';
+            startButton.style.display = 'none';
+            document.getElementById('game-title').textContent = "Momo's Adventure";
+        }
+
+        function nextQuestion() {
+            if (remainingQuestions > 0) {
+                const randomIndex = Math.floor(Math.random() * kanjiList.length);
+                currentQuestion = kanjiList[randomIndex];
+                const incorrectChoices = kanjiList
+                    .filter(k => k !== currentQuestion)
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3);
+                const allChoices = [...incorrectChoices, currentQuestion].sort(() => 0.5 - Math.random());
+
+                questionElement.textContent = currentQuestion.kanji;
+                readingElement.textContent = currentQuestion.reading;
+                choicesElement.innerHTML = '';
+                allChoices.forEach(choice => {
+                    const button = document.createElement('button');
+                    button.className = 'choice';
+                    button.textContent = choice.meaning;
+                    button.addEventListener('click', () => {
+                        handleAnswer(choice);
+                        clickSound.volume = 0.15; // Set click sound volume to 50% louder
+                        clickSound.play();
+                    });
+                    choicesElement.appendChild(button);
+                });
+
+                remainingQuestions--;
+                timeLeft = 15;
+                updateDisplay();
+                startTimer();
+            } else {
+                endGame();
+            }
+        }
+
+        function handleAnswer(selectedAnswer) {
+            clearInterval(timerInterval);
+            if (selectedAnswer === currentQuestion) {
+                correctAnswers++;
+                streak++;
+                if (streak === 10) {
+                    showStreakModal();
+                }
+            } else {
+                lifePoints--;
+                streak = 0;
+                showFeedbackModal();
+            }
+            updateDisplay();
+            if (lifePoints <= 0) {
+                endGame();
+            } else {
+                nextQuestion();
+            }
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerBar();
+                updateMovingCircle();
+                if (timeLeft <= 0) {
+                    handleAnswer(null);
+                }
+            }, 1000);
+        }
+
+        function updateTimerBar() {
+            timerBar.style.width = `${(timeLeft / 15) * 100}%`;
+        }
+
+        function updateMovingCircle() {
+            movingCircle.style.left = `${(timeLeft / 15) * 100}%`;
+        }
+
+        function updateDisplay() {
+            lifePointsElement.textContent = `Life Points: ${'❤️'.repeat(lifePoints)}`;
+            remainingQuestionsElement.textContent = `Questions Left: ${remainingQuestions}`;
+            streakElement.innerHTML = '';
+            for (let i = 0; i < streak; i++) {
+                const img = document.createElement('img');
+                img.src = imageList[i % imageList.length];
+                streakElement.appendChild(img);
+            }
+        }
+
+        function showFeedbackModal() {
+            feedbackMessage.textContent = `Correct answer: ${currentQuestion.kanji} - ${currentQuestion.meaning}`;
+            feedbackModal.style.display = 'block';
+        }
+
+        function showStreakModal() {
+            streakModal.style.display = 'block';
+        }
+
+        function endGame() {
+            gameStarted = false;
+            gameArea.style.display = 'none';
+            startButton.style.display = 'inline-block';
+            alert(`Game Over! Your score is ${correctAnswers}/20. Click Start to play again.`);
+        }
+
+        document.querySelectorAll('.close').forEach(closeButton => {
+            closeButton.onclick = function() {
+                this.closest('.modal').style.display = 'none';
+            }
+        });
+
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
