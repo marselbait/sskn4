@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Momo's Adventure - Hiragana & Katakana Quiz</title>
+    <title>KMomo's Adventure - N4 Kanji Quiz</title>
     <style>
         * {
             box-sizing: border-box;
@@ -163,7 +163,7 @@
 </head>
 <body>
     <div class="game-container">
-        <h1 id="game-title">Momo's Adventure - Hiragana & Katakana Quiz</h1>
+        <h1 id="game-title">Momo's Adventure - N4 Kanji Quiz</h1>
         <div id="game-area" style="display:none;">
             <div class="streak" id="streak"></div>
             <div class="question-card">
@@ -204,274 +204,32 @@
     <audio id="click-sound" src="music/click.mp3"></audio>
 
     <script>
-        const kanaList = [
-            // Hiragana
-            { kana: 'あ', meaning: 'a' },
-            { kana: 'い', meaning: 'i' },
-            { kana: 'う', meaning: 'u' },
-            { kana: 'え', meaning: 'e' },
-            { kana: 'お', meaning: 'o' },
-            { kana: 'か', meaning: 'ka' },
-            { kana: 'き', meaning: 'ki' },
-            { kana: 'く', meaning: 'ku' },
-            { kana: 'け', meaning: 'ke' },
-            { kana: 'こ', meaning: 'ko' },
-            { kana: 'さ', meaning: 'sa' },
-            { kana: 'し', meaning: 'shi' },
-            { kana: 'す', meaning: 'su' },
-            { kana: 'せ', meaning: 'se' },
-            { kana: 'そ', meaning: 'so' },
-            { kana: 'た', meaning: 'ta' },
-            { kana: 'ち', meaning: 'chi' },
-            { kana: 'つ', meaning: 'tsu' },
-            { kana: 'て', meaning: 'te' },
-            { kana: 'と', meaning: 'to' },
-            { kana: 'な', meaning: 'na' },
-            { kana: 'に', meaning: 'ni' },
-            { kana: 'ぬ', meaning: 'nu' },
-            { kana: 'ね', meaning: 'ne' },
-            { kana: 'の', meaning: 'no' },
-            { kana: 'は', meaning: 'ha' },
-            { kana: 'ひ', meaning: 'hi' },
-            { kana: 'ふ', meaning: 'fu' },
-            { kana: 'へ', meaning: 'he' },
-            { kana: 'ほ', meaning: 'ho' },
-            { kana: 'ま', meaning: 'ma' },
-            { kana: 'み', meaning: 'mi' },
-            { kana: 'む', meaning: 'mu' },
-            { kana: 'め', meaning: 'me' },
-            { kana: 'も', meaning: 'mo' },
-            { kana: 'や', meaning: 'ya' },
-            { kana: 'ゆ', meaning: 'yu' },
-            { kana: 'よ', meaning: 'yo' },
-            { kana: 'ら', meaning: 'ra' },
-            { kana: 'り', meaning: 'ri' },
-            { kana: 'る', meaning: 'ru' },
-            { kana: 'れ', meaning: 're' },
-            { kana: 'ろ', meaning: 'ro' },
-            { kana: 'わ', meaning: 'wa' },
-            { kana: 'を', meaning: 'wo' },
-            { kana: 'ん', meaning: 'n' },
-            // Katakana
-            { kana: 'ア', meaning: 'a' },
-            { kana: 'イ', meaning: 'i' },
-            { kana: 'ウ', meaning: 'u' },
-            { kana: 'エ', meaning: 'e' },
-            { kana: 'オ', meaning: 'o' },
-            { kana: 'カ', meaning: 'ka' },
-            { kana: 'キ', meaning: 'ki' },
-            { kana: 'ク', meaning: 'ku' },
-            { kana: 'ケ', meaning: 'ke' },
-            { kana: 'コ', meaning: 'ko' },
-            { kana: 'サ', meaning: 'sa' },
-            { kana: 'シ', meaning: 'shi' },
-            { kana: 'ス', meaning: 'su' },
-            { kana: 'セ', meaning: 'se' },
-            { kana: 'ソ', meaning: 'so' },
-            { kana: 'タ', meaning: 'ta' },
-            { kana: 'チ', meaning: 'chi' },
-            { kana: 'ツ', meaning: 'tsu' },
-            { kana: 'テ', meaning: 'te' },
-            { kana: 'ト', meaning: 'to' },
-            { kana: 'ナ', meaning: 'na' },
-            { kana: 'ニ', meaning: 'ni' },
-            { kana: 'ヌ', meaning: 'nu' },
-            { kana: 'ネ', meaning: 'ne' },
-            { kana: 'ノ', meaning: 'no' },
-            { kana: 'ハ', meaning: 'ha' },
-            { kana: 'ヒ', meaning: 'hi' },
-            { kana: 'フ', meaning: 'fu' },
-            { kana: 'ヘ', meaning: 'he' },
-            { kana: 'ホ', meaning: 'ho' },
-            { kana: 'マ', meaning: 'ma' },
-            { kana: 'ミ', meaning: 'mi' },
-            { kana: 'ム', meaning: 'mu' },
-            { kana: 'メ', meaning: 'me' },
-            { kana: 'モ', meaning: 'mo' },
-            { kana: 'ヤ', meaning: 'ya' },
-            { kana: 'ユ', meaning: 'yu' },
-            { kana: 'ヨ', meaning: 'yo' },
-            { kana: 'ラ', meaning: 'ra' },
-            { kana: 'リ', meaning: 'ri' },
-            { kana: 'ル', meaning: 'ru' },
-            { kana: 'レ', meaning: 're' },
-            { kana: 'ロ', meaning: 'ro' },
-            { kana: 'ワ', meaning: 'wa' },
-            { kana: 'ヲ', meaning: 'wo' },
-            { kana: 'ン', meaning: 'n' },
-        ];
+        const kanjiList = [
+            { kanji: '夜', meaning: 'night', reading: 'よる' },
+            { kanji: '自分', meaning: 'oneself', reading: 'じぶん' },
+            { kanji: '夕方', meaning: 'evening', reading: 'ゆうがた' },
+            { kanji: '用意', meaning: 'preparation', reading: 'ようい' },
+            { kanji: '転ぶ', meaning: 'to fall down', reading: 'ころぶ' },
+            { kanji: '貸す', meaning: 'to lend', reading: 'かす' },
+            { kanji: '頭', meaning: 'head', reading: 'あたま' },
+            { kanji: '耳', meaning: 'ear', reading: 'みみ' },
+            { kanji: '病気', meaning: 'illness', reading: 'びょうき' },
+            { kanji: '首', meaning: 'neck', reading: 'くび' },
+            { kanji: '院', meaning: 'institution', reading: 'いん' },
+            { kanji: '習う', meaning: 'to learn', reading: 'ならう' },
+            { kanji: '同じ', meaning: 'same', reading: 'おなじ' },
+            { kanji: '動く', meaning: 'to move', reading: 'うごく' },
+            { kanji: '外', meaning: 'outside', reading: 'そと' },
+            { kanji: '者', meaning: 'person', reading: 'もの' },
+            { kanji: '体', meaning: 'body', reading: 'からだ' },
+            { kanji: '区', meaning: 'ward/district', reading: 'く' },
+            { kanji: '薬', meaning: 'medicine', reading: 'くすり' },
+            { kanji: '内', meaning: 'inside', reading: 'ない' },
+            { kanji: '野', meaning: 'field', reading: 'の' },
+            { kanji: '牛肉', meaning: 'beef', reading: 'ぎゅうにく' },
+            { kanji: '魚', meaning: 'fish', reading: 'さかな' },
+            { kanji: '飯', meaning: 'meal', reading: 'めし' },
+            { kanji: '持つ', meaning: 'to hold', reading: 'もつ' },
+            { kanji: '紙', meaning: 'paper', reading: 'かみ' },
+            { kanji: '住む
 
-        const imageList = [
-            'immgs/new1.png',
-            'immgs/new2.png',
-            'immgs/new3.png',
-            'immgs/new4.png',
-            'immgs/new5.png',
-            'immgs/new1.png',
-            'immgs/new2.png',
-            'immgs/new3.png',
-            'immgs/new4.png',
-            'immgs/new5.png'
-        ];
-
-        let lifePoints = 5;
-        let remainingQuestions = 50; // Set the total number of questions per game to 50
-        let currentQuestion;
-        let correctAnswers = 0;
-        let timeLeft = 15;
-        let timerInterval;
-        let streak = 0;
-        let gameStarted = false;
-
-        const gameArea = document.getElementById('game-area');
-        const startButton = document.getElementById('start-button');
-        const questionElement = document.getElementById('question');
-        const readingElement = document.getElementById('reading');
-        const choicesElement = document.getElementById('choices');
-        const lifePointsElement = document.getElementById('life-points');
-        const remainingQuestionsElement = document.getElementById('remaining-questions');
-        const streakElement = document.getElementById('streak');
-        const timerBar = document.querySelector('.timer-bar');
-        const feedbackModal = document.getElementById('feedback-modal');
-        const streakModal = document.getElementById('streak-modal');
-        const feedbackMessage = document.getElementById('feedback-message');
-        const movingCircle = document.querySelector('.moving-circle');
-
-        const backgroundMusic = document.getElementById('background-music');
-        const clickSound = document.getElementById('click-sound');
-
-        startButton.addEventListener('click', () => {
-            startGame();
-            backgroundMusic.volume = 0.1;
-            backgroundMusic.play();
-        });
-
-        function startGame() {
-            gameStarted = true;
-            lifePoints = 5;
-            remainingQuestions = 50; // Set the remaining questions to 50 at the start of the game
-            correctAnswers = 0;
-            streak = 0;
-            updateDisplay();
-            nextQuestion();
-            gameArea.style.display = 'block';
-            startButton.style.display = 'none';
-            document.getElementById('game-title').textContent = "Momo's Adventure - A Hiragana and Katakana Quiz";
-        }
-
-        function nextQuestion() {
-            if (remainingQuestions > 0) {
-                const randomIndex = Math.floor(Math.random() * kanaList.length);
-                currentQuestion = kanaList[randomIndex];
-                const incorrectChoices = kanaList
-                    .filter(k => k !== currentQuestion)
-                    .sort(() => 0.5 - Math.random())
-                    .slice(0, 3);
-                const allChoices = [...incorrectChoices, currentQuestion].sort(() => 0.5 - Math.random());
-
-                questionElement.textContent = currentQuestion.kana;
-                readingElement.textContent = '';
-                choicesElement.innerHTML = '';
-                allChoices.forEach(choice => {
-                    const button = document.createElement('button');
-                    button.className = 'choice';
-                    button.textContent = choice.meaning;
-                    button.addEventListener('click', () => {
-                        handleAnswer(choice);
-                        clickSound.volume = 0.15; // Set click sound volume to 50% louder
-                        clickSound.play();
-                    });
-                    choicesElement.appendChild(button);
-                });
-
-                remainingQuestions--;
-                timeLeft = 15;
-                updateDisplay();
-                startTimer();
-            } else {
-                endGame();
-            }
-        }
-
-        function handleAnswer(selectedAnswer) {
-            clearInterval(timerInterval);
-            if (selectedAnswer === currentQuestion) {
-                correctAnswers++;
-                streak++;
-                if (streak === 10) {
-                    showStreakModal();
-                }
-            } else {
-                lifePoints--;
-                streak = 0;
-                showFeedbackModal();
-            }
-            updateDisplay();
-            if (lifePoints <= 0) {
-                endGame();
-            } else {
-                nextQuestion();
-            }
-        }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerBar();
-                updateMovingCircle();
-                if (timeLeft <= 0) {
-                    handleAnswer(null);
-                }
-            }, 1000);
-        }
-
-        function updateTimerBar() {
-            timerBar.style.width = `${(timeLeft / 15) * 100}%`;
-        }
-
-        function updateMovingCircle() {
-            movingCircle.style.left = `${(timeLeft / 15) * 100}%`;
-        }
-
-        function updateDisplay() {
-            lifePointsElement.textContent = `Life Points: ${'❤️'.repeat(lifePoints)}`;
-            remainingQuestionsElement.textContent = `Questions Left: ${remainingQuestions}`;
-            streakElement.innerHTML = '';
-            for (let i = 0; i < streak; i++) {
-                const img = document.createElement('img');
-                img.src = imageList[i % imageList.length];
-                streakElement.appendChild(img);
-            }
-        }
-
-        function showFeedbackModal() {
-            feedbackMessage.textContent = `Correct answer: ${currentQuestion.kana} - ${currentQuestion.meaning}`;
-            feedbackModal.style.display = 'block';
-        }
-
-        function showStreakModal() {
-            streakModal.style.display = 'block';
-        }
-
-        function endGame() {
-            gameStarted = false;
-            gameArea.style.display = 'none';
-            startButton.style.display = 'inline-block';
-            alert(`Game Over! Your score is ${correctAnswers}/50. Click Start to play again.`);
-        }
-
-        document.querySelectorAll('.close').forEach(closeButton => {
-            closeButton.onclick = function() {
-                this.closest('.modal').style.display = 'none';
-            }
-        });
-
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                event.target.style.display = 'none';
-            }
-        }
-    </script>
-</body>
-</html>
